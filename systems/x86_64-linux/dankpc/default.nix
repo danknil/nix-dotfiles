@@ -87,6 +87,7 @@ with lib;
   };
 
   services.fstrim.enable = lib.mkDefault true;
+  services.openssh = enabled;
 
   services.greetd = {
     enable = true;
@@ -94,7 +95,7 @@ with lib;
     settings = {
       default_session = {
         # command = "${pkgs.cage}/bin/cage -m last -d -- ${pkgs.greetd.regreet}/bin/regreet";
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd hyprland";
         user = "loginuser";
       };
     };
@@ -102,25 +103,25 @@ with lib;
 
   users.users.loginuser = {
     group = "users";
-    isNormalUser = true;
-    createHome = false;
-    description = "User for login";
-    extraGroups = [ "video" "audio" ];
+    isnormaluser = true;
+    createhome = false;
+    description = "user for login";
+    extragroups = [ "video" "audio" ];
     packages = with pkgs; [ cage greetd.greetd greetd.regreet ];
   };
 
 
   # enables completion for zsh
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathstolink = [ "/share/zsh" ];
 
   danknil = {
     system = enabled;
     desktop.hyprland.enable = true;
     user = {
       name = "danknil";
-      fullName = "Mikhail Balashov";
+      fullname = "mikhail balashov";
       email = "danknil@protonmail.com";
-      extraGroups = [ "networkmanager" "libvirtd" ];
+      extragroups = [ "networkmanager" "libvirtd" ];
     };
 
     hardware = {
