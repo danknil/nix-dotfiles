@@ -12,7 +12,7 @@ in
 
   config =
     mkIf cfg.enable {
-      programs.nix-ld.enable = true;
+      # programs.nix-ld.enable = true;
       nix =
         let users = [ "root" config.danknil.user.name ];
         in

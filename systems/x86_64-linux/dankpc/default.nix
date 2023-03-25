@@ -45,7 +45,7 @@ with lib;
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ rocm-opencl-icd ];
+    extraPackages = with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -95,7 +95,7 @@ with lib;
     settings = {
       default_session = {
         # command = "${pkgs.cage}/bin/cage -m last -d -- ${pkgs.greetd.regreet}/bin/regreet";
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd hyprland";
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
         user = "loginuser";
       };
     };
@@ -103,30 +103,31 @@ with lib;
 
   users.users.loginuser = {
     group = "users";
-    isnormaluser = true;
-    createhome = false;
+    isNormalUser = true;
+    createHome = false;
     description = "user for login";
-    extragroups = [ "video" "audio" ];
+    extraGroups = [ "video" "audio" ];
     packages = with pkgs; [ cage greetd.greetd greetd.regreet ];
   };
 
 
   # enables completion for zsh
-  environment.pathstolink = [ "/share/zsh" ];
+  environment.pathsToLink = [ "/share/zsh" ];
 
   danknil = {
     system = enabled;
     desktop.hyprland.enable = true;
     user = {
       name = "danknil";
-      fullname = "mikhail balashov";
+      fullName = "Mikhail Balashov";
       email = "danknil@protonmail.com";
-      extragroups = [ "networkmanager" "libvirtd" ];
+      extraGroups = [ "networkmanager" "libvirtd" ];
     };
 
     hardware = {
       audio = enabled;
     };
+
     apps = {
       alacritty = enabled;
       chromium = enabled;
