@@ -10,11 +10,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [ rtorrent flood ];
+    environment.systemPackages = with pkgs; [ rtorrent ];
     danknil.home.extraOptions = {
-      programs.rtorrent = {
-        enable = true;
-      };
+      programs.rtorrent = enabled;
       # INFO: possibly using desktop entry?
       systemd.user.services.flood = {
         Unit = {

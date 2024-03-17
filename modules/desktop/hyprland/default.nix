@@ -16,34 +16,27 @@ in
 
   config = mkIf cfg.enable {
     # TODO: move polkit to module
-    security.polkit.enable = true;
+    # security.polkit.enable = true;
     programs.hyprland = {
       enable = true;
-      xwayland = { 
-        enable = true;
-        hidpi = false; 
-      };
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     };
 
     # enabling addons
     # WARN: do i need to enable swayidle there?
-    danknil.desktop.addons = {
-      cursor = enabled;
-      theming = enabled;
-    };
+    # danknil.desktop.addons = {
+    #   cursor = enabled;
+    #   theming = enabled;
+    # };
 
     danknil.home.extraOptions =
     {
       imports = [ inputs.hyprland.homeManagerModules.default ];
       wayland.windowManager.hyprland = {
         enable = true;
-        xwayland = {
-          enable = true;
-          hidpi = false;
-        };
+        xwayland = enabled;
 
         package = null;
-        systemdIntegration = true;
         extraConfig =
           ''
             ${cfg.extraConfig}
