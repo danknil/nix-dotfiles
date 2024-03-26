@@ -2,10 +2,11 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-
+with lib;
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "vmd" "ahci" "nvme" "usbhid" ];
@@ -14,14 +15,16 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/19d649c7-d9e6-487c-90d3-1c8fbb24c12d";
+    {
+      device = "/dev/disk/by-uuid/19d649c7-d9e6-487c-90d3-1c8fbb24c12d";
       fsType = "ext4";
     };
 
   boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/719f2663-2072-45cf-af0f-6301e60dade2";
 
   fileSystems."/boot" =
-    { device = "/dev/nvme0n1p1";
+    {
+      device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 

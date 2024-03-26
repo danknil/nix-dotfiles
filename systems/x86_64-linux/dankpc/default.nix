@@ -1,4 +1,4 @@
-{ lib, modulesPath, pkgs,  ... }:
+{ lib, modulesPath, pkgs, ... }:
 with lib;
 {
   imports = [
@@ -160,5 +160,5 @@ with lib;
     openFirewall = true;
   };
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "23.11";
 }
