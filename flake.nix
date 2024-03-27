@@ -14,6 +14,7 @@
     # TODO: add to packages in hyprshot
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprlock.url = "github:hyprwm/hyprlock";
+    xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
     # For building my home folder
     home-manager = {
@@ -60,7 +61,6 @@
     in
     lib.mkFlake {
       channels-config.allowUnfree = true;
-
       # systems.modules = with inputs; [
       #   home-manager.nixosModules.home-manager
       # ];
@@ -74,7 +74,7 @@
       ];
 
       overlays = with inputs; [
-        nixd.overlays.default
+        xdph.overlays.default
       ];
     };
 }

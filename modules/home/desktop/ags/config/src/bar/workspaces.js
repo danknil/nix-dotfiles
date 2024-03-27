@@ -1,6 +1,6 @@
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 import { execAsync } from 'resource:///com/github/Aylur/ags/utils.js';
-import { Widget } from 'resource:///com/github/Aylur/ags/widget.js';
+import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 
 function isWorkspaceOccupied(/** @type number */ id) {
   return (

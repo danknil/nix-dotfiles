@@ -3,9 +3,9 @@
 , config
 , ...
 }:
-let cfg = config.profiles.mpv;
+let cfg = config.apps.mpv;
 in {
-  options.profiles.mpv = with lib; {
+  options.apps.mpv = with lib; {
     enable = mkEnableOption "Enable MPV player";
   };
   config = lib.mkIf cfg.enable {

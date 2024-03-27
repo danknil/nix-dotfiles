@@ -42,7 +42,6 @@ stdenv.mkDerivation rec {
   ];
 
   dontWrapQtApps = true;
-
   outputs = [ "out" "dev" ];
 
   meta = {

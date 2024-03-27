@@ -11,7 +11,6 @@ in with lib; {
     extraConfig = dnix.mkOpt attrs {} "Default config overrides";
   };
   config = mkIf cfg.enable {
-    home.packages = [ config.services.hyprpaper.package ];
     services.hyprpaper = {
       enable = true;
     } // cfg.extraConfig;

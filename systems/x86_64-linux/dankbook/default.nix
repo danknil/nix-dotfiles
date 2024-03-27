@@ -7,8 +7,24 @@ with lib;
       ./hardware-configuration.nix
     ];
   environment.variables.EDITOR = "nvim";
+  services.upower.enable = true;
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+
+  services.thermald.enable = true;
+  services.tlp = {
+    enable = true;
+    # TODO: settings
+    settings = { };
+  };
+  powerManagement.enable = true;
+
+  zramSwap = {
+    enable = true;
+    priority = 100;
+    memoryPercent = 80;
+    # writebackDevice = "/swapfile-writeback";
+  };
 
   # boot = {
   #   initrd.systemd.enable = true;
@@ -22,6 +38,7 @@ with lib;
   #   };
   # };
 
+  services.udisks2.enable = true;
   networking = {
     hostName = "dankbook";
     networkmanager = {

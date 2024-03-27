@@ -55,7 +55,7 @@ const WiredIndicator = () =>
 
 const NetworkIndicator = () =>
   Widget.Stack({
-    items: [
+    children: [
       ["wifi", WifiIndicator()],
       ["wired", WiredIndicator()],
     ],

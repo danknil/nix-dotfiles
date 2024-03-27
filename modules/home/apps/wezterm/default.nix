@@ -3,9 +3,9 @@
 , config
 , ...
 }:
-let cfg = config.profiles.wezterm;
+let cfg = config.apps.wezterm;
 in {
-  options.profiles.wezterm = with lib; {
+  options.apps.wezterm = with lib; {
     enable = mkEnableOption "Enable wezterm terminal emulator";
   };
   config = lib.mkIf cfg.enable {

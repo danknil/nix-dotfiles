@@ -9,6 +9,12 @@ in {
     enable = mkEnableOption "Enable ags with notifications and bar";
   };
   config = lib.mkIf cfg.enable {
+    # install fonts
+    home.packages = with pkgs; [
+      ubuntu_font_family
+      jetbrains-mono
+    ];
+
     programs.ags = {
       enable = true;
       # null or path, leave as null if you don't want hm to manage the config
@@ -20,6 +26,9 @@ in {
         webkitgtk
         accountsservice
       ];
+    };
+    profiles.desktop.hyprland.extraConfig = {
+      exec-once = [ "ags &" ];
     };
   };
 }

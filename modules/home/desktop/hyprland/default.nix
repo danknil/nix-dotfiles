@@ -1,5 +1,6 @@
 { lib
 , config
+, pkgs
 , ...
 }:
 let cfg = config.profiles.desktop.hyprland;
@@ -10,22 +11,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.sessionVariables = {
-      XCURSOR_SIZE = "24";
-      # Hyprland vars
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_TYPE = "wayland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-      # QT env vars
-      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-      QT_QPA_PLATFORM = "wayland;xcb";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      QT_QPA_PLATFORMTHEME = "qt5ct";
-      # Misc wayland enablers
-      GDK_BACKEND = "wayland,x11";
-      SDL_VIDEODRIVER = "wayland";
-      CLUTTER_BACKEND = "wayland";
-    };
     wayland.windowManager.hyprland = {
       enable = true;
       settings = lib.dnix.recursiveMerge [{
@@ -142,60 +127,73 @@ in {
           "$mainMod, mouse:273, resizewindow"
         ];
 
-        bind =
-          [
-            "$mainMod, T, exec, $TERM"
+        bind = [
+          "$mainMod, T, exec, $TERM"
 
-            # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-            "$mainMod, C, killactive,"
-            "$mainMod, M, exit,"
-            "$mainMod, E, exec, dolphin"
-            "$mainMod, V, togglefloating,"
-            "$mainMod, R, exec, rofi -show drun"
+          # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+          "$mainMod, C, killactive,"
+          "$mainMod, M, exit,"
+          "$mainMod, E, exec, dolphin"
+          "$mainMod, V, togglefloating,"
+          "$mainMod, R, exec, rofi -show drun"
 
-            # Move focus with mainMod + arrow keys
-            "$mainMod, left, movefocus, l"
-            "$mainMod, right, movefocus, r"
-            "$mainMod, up, movefocus, u"
-            "$mainMod, down, movefocus, d"
-            # Move focus with mainMod + hjkl keys
-            "$mainMod, H, movefocus, l"
-            "$mainMod, L, movefocus, r"
-            "$mainMod, K, movefocus, u"
-            "$mainMod, J, movefocus, d"
+          # Move focus with mainMod + arrow keys
+          "$mainMod, left, movefocus, l"
+          "$mainMod, right, movefocus, r"
+          "$mainMod, up, movefocus, u"
+          "$mainMod, down, movefocus, d"
+          # Move focus with mainMod + hjkl keys
+          "$mainMod, H, movefocus, l"
+          "$mainMod, L, movefocus, r"
+          "$mainMod, K, movefocus, u"
+          "$mainMod, J, movefocus, d"
 
-            "$mainMod, RETURN, fullscreen, 0"
+          "$mainMod, RETURN, fullscreen, 0"
 
-            # Example special workspace (scratchpad)
-            "$mainMod, S, togglespecialworkspace, magic"
-            "$mainMod SHIFT, S, movetoworkspace, special:magic"
+          # Example special workspace (scratchpad)
+          "$mainMod, S, togglespecialworkspace, magic"
+          "$mainMod SHIFT, S, movetoworkspace, special:magic"
 
-            # Scroll through existing workspaces with mainMod + scroll
-            "$mainMod, mouse_down, workspace, e+1"
-            "$mainMod, mouse_up, workspace, e-1"
-          ]
-          ++ (
-            # workspaces
-            # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
-            builtins.concatLists (builtins.genList
-              (
-                x:
-                let
-                  ws =
-                    let
-                      c = (x + 1) / 10;
-                    in
-                    builtins.toString (x + 1 - (c * 10));
-                in
-                [
-                  "$mainMod, ${ws}, workspace, ${toString (x + 1)}"
-                  "$mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-                ]
-              )
-              10)
-          );
+          # Scroll through existing workspaces with mainMod + scroll
+          "$mainMod, mouse_down, workspace, e+1"
+          "$mainMod, mouse_up, workspace, e-1"
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
+          builtins.concatLists (builtins.genList
+            (
+              x:
+              let
+                ws =
+                  let
+                    c = (x + 1) / 10;
+                  in
+                  builtins.toString (x + 1 - (c * 10));
+              in
+              [
+                "$mainMod, ${ws}, workspace, ${toString (x + 1)}"
+                "$mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+              ]
+            )
+            10)
+        );
       }
         cfg.extraConfig];
+    };
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
+        kdePackages.xdg-desktop-portal-kde
+        xdg-desktop-portal-gtk
+      ];
+      config = {
+        preferred = {
+          default = [ "hyprland" "kde" "gtk" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
+        };
+      };
     };
   };
 }

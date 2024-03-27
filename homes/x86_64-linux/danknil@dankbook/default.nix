@@ -1,4 +1,6 @@
-_:
+{ pkgs
+, ...
+}:
 {
   snowfallorg.user = {
     enable = true;
@@ -27,7 +29,7 @@ _:
           ];
         };
       };
-      # broken atm
+      # FIXME: broken atm
       # hyprpaper = {
       #   enable = true;
       #   extraConfig = {
@@ -35,18 +37,53 @@ _:
       #     wallpapers = [ "eDP-1,~/Wallpapers/saber-dark.png" ];
       #   };
       # };
+
+      hypridle.enable = true;
       wbg = {
         enable = true;
         wallpaperImg = "~/Wallpapers/saber-dark.png";
       };
+
       # desktop programs
       rofi.enable = true;
       hyprshot.enable = true;
+      ags.enable = true;
     };
 
     # programs setups
     alacritty.enable = true;
     zsh.enable = true;
+  };
+
+  home.packages = with pkgs; [
+    # atool
+    atool
+    gnutar
+    gzip
+    pbzip2
+    plzip
+    lzop
+    lzip
+    zip
+    unzip
+    rar
+    lha
+    p7zip
+    # cp & mv but better
+    advcpmv
+
+    # my app
+    dnix.mimeappslist
+  ];
+
+  gtk.iconTheme = {
+    package = pkgs.numix-icon-theme;
+    name = "Numix";
+  };
+
+  services.udiskie = {
+    enable = true;
+    tray = "never";
   };
 
   home.stateVersion = "23.11";
