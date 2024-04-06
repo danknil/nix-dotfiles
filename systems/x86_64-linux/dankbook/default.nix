@@ -35,7 +35,7 @@ with lib.dnix;
     networkmanager = enabled' {
       wifi.backend = "iwd";
     };
-    firewall = disabled;
+    firewall = enabled;
   };
 
   # hardware setup
