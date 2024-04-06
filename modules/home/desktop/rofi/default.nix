@@ -17,13 +17,6 @@ in {
     programs.rofi = {
       enable = true;
       package = pkgs.rofi-wayland;
-      pass = {
-        enable = true;
-        package = pkgs.rofi-pass-wayland;
-      };
-      plugins = with pkgs; [
-        rofi-calc
-      ];
       # TODO: add config
       extraConfig = { };
     };

@@ -5,8 +5,12 @@ with lib; rec {
 
   mkOpt' = type: default: mkOpt' type default null;
 
-  enabled = { enable = true; };
   disabled = { enable = false; };
+
+  enabled' = added: { enable = true; } // added;
+  enabled = enabled' { };
+
+  ifEnabled = cfg: mkIf cfg.enable;
 
   recursiveMerge =
     zipAttrsWith (n: values:

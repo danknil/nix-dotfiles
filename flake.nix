@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
-    nixd.url = "github:nix-community/nixd";
 
     # Hypr software, my beloved <3
     hyprland.url = "github:hyprwm/Hyprland";
@@ -16,25 +15,34 @@
     hyprlock.url = "github:hyprwm/hyprlock";
     xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
+    # for theming
+    nix-colors.url = "github:Misterio77/nix-colors";
+
+    # for game packages & some optimization options
+    nix-gaming.url = "github:fufexan/nix-gaming";
+
+    # neovim setup with nixos :D
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # For building my home folder
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Flake builder
     systems.url = "github:msfjarvis/flake-systems";
-
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-
     flake-utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
       inputs.flake-utils.follows = "flake-utils";
     };
-
-    # Flake builder
     snowfall-lib = {
       url = "github:snowfallorg/lib/dev";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,9 +69,9 @@
     in
     lib.mkFlake {
       channels-config.allowUnfree = true;
-      # systems.modules = with inputs; [
-      #   home-manager.nixosModules.home-manager
-      # ];
+      systems.modules = with inputs; [
+        nixvim.nixosModules.nixvim
+      ];
 
       homes.modules = with inputs; [
         hyprland.homeManagerModules.default
@@ -71,6 +79,7 @@
         hyprlock.homeManagerModules.default
         hyprpaper.homeManagerModules.default
         ags.homeManagerModules.default
+        nix-colors.homeManagerModule
       ];
 
       overlays = with inputs; [

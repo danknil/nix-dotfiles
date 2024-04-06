@@ -1,23 +1,13 @@
-{ lib
-, pkgs
-, stdenv
-, python312Packages
+{ pkgs
 , ...
 }:
-with python312Packages;
-buildPythonApplication {
-  pname = "mimeappslist";
-  version = "1.0";
-
-  outputs = [ "bin" ];
-
-  src = ./.;
-  propagatedBuildInputs = [ pygobject3 ];
-
-  meta = with lib; {
-    description = "app for checking list of mimeapps";
-    license = licenses.gpl3;
-    platforms = platforms.linux;
-    maintainers = with maintainers; [ danknil ];
-  };
+pkgs.stdenv.mkDerivation {
+  name = "mimeappslist";
+  propagatedBuildInputs = [
+    (pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+      pygobject3
+    ]))
+  ];
+  dontUnpack = true;
+  installPhase = "install -Dm755 ${./mimeappslist.py} $out/bin/mimeappslist";
 }

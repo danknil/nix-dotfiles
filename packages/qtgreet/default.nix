@@ -13,7 +13,7 @@
 , wayland
 , ...
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "qtgreet";
   version = "dev-2024-03-05";
 

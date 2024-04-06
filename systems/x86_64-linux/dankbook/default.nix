@@ -1,5 +1,6 @@
 { lib, pkgs, ... }:
 with lib;
+with lib.dnix;
 {
   imports =
     [
@@ -11,41 +12,52 @@ with lib;
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
-  services.thermald.enable = true;
-  services.tlp = {
-    enable = true;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+
+  powerManagement = enabled;
+  systemd.sleep.extraConfig = "HibernateDelaySec=1200";
+  services.thermald = enabled;
+  services.tlp = enabled' {
     # TODO: settings
     settings = { };
   };
-  powerManagement.enable = true;
 
-  zramSwap = {
-    enable = true;
+  services.dbus.implementation = "broker";
+
+  zramSwap = enabled' {
     priority = 100;
     memoryPercent = 80;
-    # writebackDevice = "/swapfile-writeback";
   };
 
-  # boot = {
-  #   initrd.systemd.enable = true;
-  #   loader = {
-  #     efi.canTouchEfiVariables = true;
-  #     timeout = 0;
-  #     systemd-boot = {
-  #       enable = true;
-  #       editor = false;
-  #     };
-  #   };
-  # };
-
-  services.udisks2.enable = true;
+  services.udisks2 = enabled;
   networking = {
     hostName = "dankbook";
-    networkmanager = {
-      enable = true;
+    networkmanager = enabled' {
       wifi.backend = "iwd";
     };
-    firewall.enable = false;
+    firewall = disabled;
+  };
+
+  # hardware setup
+
+  boot.initrd.kernelModules = [ "i915" ]; # early boot gpu module
+
+  services.fstrim = enabled; # enable fstrim for ssd
+
+  # add vdpau to env
+  environment.variables = {
+    VDPAU_DRIVER = "va_gl";
+  };
+
+  # setup opengl
+  hardware.opengl = enabled' {
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      intel-vaapi-driver
+      libvdpau-va-gl
+      intel-media-driver
+    ];
   };
 
   # Set your time zone.
@@ -61,44 +73,25 @@ with lib;
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  programs.zsh.enable = true;
+  programs.zsh = enabled;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.danknil = {
     isNormalUser = true;
+    # fullName = "Mikhail Balashov";
+    # email = "danknil@protonmail.com";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      qutebrowser
-      neovim
-      foot
-      bemenu
-      git
-      tree
-      clifm
-      fzf
-      gnumake
-      gcc
-      nil
-      nixd
-      wl-clipboard
-      nixpkgs-fmt
-      ripgrep
-      foot
-    ];
   };
 
-  programs.sway.enable = true;
   # Enable CUPS to print documents.
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [ hplipWithPlugin ];
-  };
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    # for a WiFi printer
-    openFirewall = true;
-  };
+  # services.printing = enabled' {
+  #   drivers = with pkgs; [ hplipWithPlugin ];
+  # };
+  # services.avahi = enabled' {
+  #   nssmdns4 = true;
+  #   # for a WiFi printer
+  #   openFirewall = true;
+  # };
 
   fonts.packages = with pkgs; [
     inconsolata-nerdfont
@@ -107,38 +100,11 @@ with lib;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
     wget
     git
     tpm2-tss
   ];
-
-  # user = {
-  #   name = "danknil";
-  #   fullName = "Mikhail Balashov";
-  #   email = "danknil@protonmail.com";
-  #   extraGroups = [ "networkmanager" "libvirtd" ];
-  # };
-
-  #hardware.audio.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
 
   system.stateVersion = "23.11"; # Did you read the comment?
 }

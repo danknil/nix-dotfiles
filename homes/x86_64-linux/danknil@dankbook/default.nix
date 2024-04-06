@@ -1,22 +1,21 @@
-{ pkgs
+{ lib
+, pkgs
 , ...
 }:
+with lib.dnix;
 {
-  snowfallorg.user = {
-    enable = true;
+  snowfallorg.user = enabled' {
     name = "danknil";
   };
+
+  colorscheme.name = "gruvbox-light-hard";
+
   profiles = {
     desktop = {
       # hyprland wm config
-      hyprland = {
-        enable = true;
+      hyprland = enabled' {
         extraConfig = {
           monitor = "eDP-1,preferred,0x0,1";
-          debug = {
-            disable_logs = false;
-            enable_stdout_logs = true;
-          };
           device = [
             {
               name = "at-translated-set-2-keyboard";
@@ -38,21 +37,22 @@
       #   };
       # };
 
-      hypridle.enable = true;
-      wbg = {
-        enable = true;
+      hypridle = enabled;
+      clipman = enabled;
+      hyprshot = enabled;
+      ags = enabled;
+      rofi = enabled;
+      wbg = enabled' {
         wallpaperImg = "~/Wallpapers/saber-dark.png";
       };
-
-      # desktop programs
-      rofi.enable = true;
-      hyprshot.enable = true;
-      ags.enable = true;
     };
+    shell = enabled;
+  };
 
+  apps = {
     # programs setups
-    alacritty.enable = true;
-    zsh.enable = true;
+    alacritty = enabled;
+    vivaldi = enabled;
   };
 
   home.packages = with pkgs; [
@@ -69,20 +69,29 @@
     rar
     lha
     p7zip
-    # cp & mv but better
-    advcpmv
 
-    # my app
-    dnix.mimeappslist
+    nomacs # image viewer
+    vesktop # discord client
+    telegram-desktop # telegram client
+    zapzap # whatsapp client
+    obsidian # note taking
+    # minecraft gameing :D
+    # (prismlauncher.override {
+    #   jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
+    #   withWaylandGLFW = true;
+    # }) 
+
+    # nix lsp
+    nixpkgs-fmt
+    nil
   ];
 
-  gtk.iconTheme = {
-    package = pkgs.numix-icon-theme;
-    name = "Numix";
-  };
+  # gtk.iconTheme = {
+  #   package = pkgs.numix-icon-theme;
+  #   name = "Numix";
+  # };
 
-  services.udiskie = {
-    enable = true;
+  services.udiskie = enabled' {
     tray = "never";
   };
 

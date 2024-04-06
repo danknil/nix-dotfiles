@@ -28,7 +28,7 @@ in {
       ];
     };
     profiles.desktop.hyprland.extraConfig = {
-      exec-once = [ "ags &" ];
+      exec-once = [ "ags" ];
     };
   };
 }
