@@ -17,7 +17,6 @@ in
   config = lib.mkIf cfg.enable {
     # adding bat and advcpmv here as there is no config for it
     home.packages = with pkgs; [
-      advcpmv
       bat
     ];
 

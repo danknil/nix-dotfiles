@@ -18,7 +18,6 @@ _: {
       keep-outputs = true
       warn-dirty = false
       keep-derivations = true
-      use-xdg-base-directories = true
     '';
     settings = {
       accept-flake-config = true;

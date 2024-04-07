@@ -15,10 +15,19 @@ with lib.dnix;
       # hyprland wm config
       hyprland = enabled' {
         extraConfig = {
-          # monitor = "eDP-1,preferred,0x0,1";
+          monitor = [ 
+            "DP-1,preferred,0x0,1" 
+            "HDMI-A-1,preferred,2560x200,1,transform,3"
+          ];
+          workspace = [
+            "1,monitor:DP-1" 
+            "2,monitor:HDMI-A-1" 
+            "3,monitor:DP-1" 
+            "4,monitor:DP-1" 
+          ];
           device = [
             {
-              name = "at-translated-set-2-keyboard";
+              name = "kb-5.0-keyboard";
               kb_layout = "us,ru";
               kb_variant = "";
               kb_model = "";

@@ -1,21 +1,20 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { config, lib, pkgs, ... }:
-
+with lib;
+with lib.dnix;
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
   environment.variables.EDITOR = "nvim";
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
   boot = {
-    kernelParams = [ "initcall_blacklist=acpi_cpufreq_init amd-pstate=active" ];
+    kernelParams = [ "amd-pstate=active" ];
+    initrd.kernelModules = [ "amdgpu" ];
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
   };
 
   services.fstrim = enabled; # enable fstrim for ssd
@@ -73,6 +72,28 @@
     ];
   };
 
-  system.stateVersion = "23.11"; # Did you read the comment?
-}
+  hardware.bluetooth = enabled' {
+    powerOnBoot = true;
+    # settings = {
+    #   General = {
+    #     ControllerMode = "bredr";
+    #     Experimental = "true";
+    #   };
+    # };
+  };
 
+  # enable all firmware (e.g. microcode)
+  hardware.enableAllFirmware = true;
+
+  sound = disabled;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  system.stateVersion = "23.11";
+}
