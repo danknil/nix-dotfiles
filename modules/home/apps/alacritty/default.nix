@@ -2,15 +2,24 @@
 , config
 , ...
 }:
+with lib;
+with lib.dnix;
 let cfg = config.apps.alacritty;
 in {
-  options.apps.alacritty = with lib; {
+  options.apps.alacritty = {
     enable = mkEnableOption "Enable alacritty, GPU-accelerated terminal emulator";
   };
   config = lib.mkIf cfg.enable {
     home.sessionVariables = {
       TERM = "alacritty";
     };
+    fonts.nerdfonts = [
+      "SourceCodePro"
+      # TODO: test this fonts
+      # "ZedMono"
+      # "IBMPlexMono"
+      # "Mononoki"
+    ];
     programs.alacritty = {
       enable = true;
       # TODO: extra settings
@@ -19,12 +28,12 @@ in {
         window = {
           padding = { x = 20; y = 20; };
           decorations = "None";
-          opacity = 0.75;
+          opacity = 0.8;
           dynamic_title = false;
           dynamic_padding = true;
         };
         font = {
-          normal = { family = "Inconsolata Nerd Font Mono"; style = "Regular"; };
+          normal = { family = "SauceCodePro Nerd Font Mono"; style = "Regular"; };
           size = 16;
         };
         cursor = {
@@ -34,30 +43,36 @@ in {
         mouse = {
           hide_when_typing = true;
         };
-        colors = {
+        # coloring example from https://github.com/aarowill/base16-alacritty/blob/master/templates/default-256.mustache
+        colors = with config.colorscheme.palette; {
+          draw_bold_text_with_bright_colors = false;
           primary = {
-            background = "#f2e5bc";
-            foreground = "#654735";
+            background = "#${base00}";
+            foreground = "#${base05}";
+          };
+          cursor = {
+            text = "#${base00}";
+            cursor = "#${base05}";
           };
           normal = {
-            black = "#654735";
-            red = "#c14a4a";
-            green = "#6c782e";
-            yellow = "#b47109";
-            blue = "#45707a";
-            magenta = "#945e80";
-            cyan = "#4c7a5d";
-            white = "#e6d5ae";
+            black = "#${base00}";
+            red = "#${base08}";
+            green = "#${base0B}";
+            yellow = "#${base0A}";
+            blue = "#${base0D}";
+            magenta = "#${base0E}";
+            cyan = "#${base0C}";
+            white = "#${base05}";
           };
           bright = {
-            black = "#654735";
-            red = "#c14a4a";
-            green = "#6c782e";
-            yellow = "#b47109";
-            blue = "#45707a";
-            magenta = "#945e80";
-            cyan = "#4c7a5d";
-            white = "#e6d5ae";
+            black = "#${base03}";
+            red = "#${base09}";
+            green = "#${base01}";
+            yellow = "#${base02}";
+            blue = "#${base04}";
+            magenta = "#${base06}";
+            cyan = "#${base0F}";
+            white = "#${base07}";
           };
         };
         # colors = {

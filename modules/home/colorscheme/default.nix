@@ -2,9 +2,11 @@
 let
   inherit (inputs.nix-colors) colorSchemes;
 in
+with lib;
+with lib.dnix;
 {
-  options = with lib; {
-    colorSchemeName = dnix.mkOpt types.str "gruvbox-light-hard" "name for the scheme";
+  options = with types; {
+    colorSchemeName = mkOpt str "gruvbox-light-soft" "name for the scheme";
   };
 
   config = {

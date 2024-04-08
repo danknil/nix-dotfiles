@@ -9,15 +9,17 @@ with lib.dnix;
     ];
   environment.variables.EDITOR = "nvim";
 
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+  profiles.gaming = enabled;
+  profiles.sddm = enabled;
+
+  fileSystems."/".options = [ "defaults" "noatime" "discard" "commit=60" ];
 
   boot = {
-    kernelParams = [ "amd-pstate=active" ];
+    #kernelParams = [ ];
     initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
   };
 
-  services.fstrim = enabled; # enable fstrim for ssd
   services.dbus.implementation = "broker";
 
   zramSwap = enabled' {
@@ -51,7 +53,10 @@ with lib.dnix;
   };
 
   fonts.packages = with pkgs; [
-    inconsolata-nerdfont
+    # discord fonts
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
   ];
 
   # List packages installed in system profile. To search, run:
@@ -72,27 +77,24 @@ with lib.dnix;
     ];
   };
 
+  # setup bluetooth
   hardware.bluetooth = enabled' {
     powerOnBoot = true;
-    # settings = {
-    #   General = {
-    #     ControllerMode = "bredr";
-    #     Experimental = "true";
-    #   };
-    # };
   };
 
-  # enable all firmware (e.g. microcode)
-  hardware.enableAllFirmware = true;
+  hardware.enableAllFirmware = true; # enable all firmware (e.g. microcode)
+  services.fstrim = enabled; # enable fstrim for ssd
 
+  # disable sound because it isn't designed to use with pipewire
   sound = disabled;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+
+  security.rtkit = enabled;
+  services.pipewire = enabled' {
+    alsa = enabled' {
+      support32Bit = true;
+    };
+    pulse = enabled;
+    jack = enabled;
   };
 
   system.stateVersion = "23.11";

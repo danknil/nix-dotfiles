@@ -3,7 +3,7 @@ with lib; rec {
   mkOpt = type: default: description:
     mkOption { inherit type default description; };
 
-  mkOpt' = type: default: mkOpt' type default null;
+  mkOpt' = type: default: mkOpt type default null;
 
   disabled = { enable = false; };
 
@@ -11,6 +11,12 @@ with lib; rec {
   enabled = enabled' { };
 
   ifEnabled = cfg: mkIf cfg.enable;
+
+  toRGB = color: {
+    R = builtins.substring 0 2 color;
+    G = builtins.substring 2 2 color;
+    B = builtins.substring 4 2 color;
+  };
 
   recursiveMerge =
     zipAttrsWith (n: values:

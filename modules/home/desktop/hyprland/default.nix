@@ -46,14 +46,14 @@ in {
           sensitivity = 0;
         };
 
-        general = {
+        general = with config.colorscheme.palette; {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
           gaps_in = "5";
           gaps_out = "10";
           border_size = "6";
-          "col.active_border" = "rgb(fff8d0)";
-          "col.inactive_border" = "rgb(625951)";
+          "col.active_border" = "rgb(${base00})";
+          "col.inactive_border" = "rgb(${base05})";
 
           layout = "master";
 

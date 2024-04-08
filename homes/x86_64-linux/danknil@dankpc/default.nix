@@ -8,7 +8,7 @@ with lib.dnix;
     name = "danknil";
   };
 
-  colorscheme.name = "gruvbox-light-hard";
+  colorSchemeName = "gruvbox-light-medium";
 
   profiles = {
     desktop = {

@@ -1,14 +1,16 @@
+@import url("./colors.css");
+
 * {
   all: unset;
   font-family: "JetBrains Mono Nerd Font", sans-serif;
 }
 
 .bar {
-  background-color: #fff8d0;
-  color: #231F20;
+  background-color: @base00;
+  color: @base05;
   padding: 10px;
   border-radius: 5px;
-  border: 2px solid #654146;
+  border: 2px solid @base05;
 }
 
 .start {
@@ -25,7 +27,7 @@
 }
 
 .workspace-icon {
-  background-color: #C5A88F;
+  background-color: @base03;
   min-width: 10px; 
   min-height: 10px;
   border-radius: 2px;
@@ -33,19 +35,19 @@
 }
 
 .workspace-icon.occupied {
-  background-color: #625951;
+  background-color: @base06;
 }
 
 .workspace-icon.focused {
   min-width: 8px; 
   min-height: 8px;
   transition: all 1000ms ease-in;
-  background-color: #E86868;
+  background-color: @base08;
 } 
 
 .clock {
-  background-color: #625951;
-  color: #fff8d0;
+  background-color: @base05;
+  color: @base00;
   font-size: 16px;
   font-family: "v_CCWildWordsLower", "Cattie";
   margin: 3px;
@@ -54,12 +56,12 @@
 }
 
 .icons {
-  background-color: #625951;
-  color: #fff8d0;
-  border-radius: 2px;
+  background-color: @base05;
+  color: @base00;
+  border-radius: 4px;
   font-size: 14px;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 16px;
+  min-height: 16px;
   font-family: "Ubuntu Mono";
 }
 
@@ -70,12 +72,12 @@
 }
 
 .battery-icon.charging {
-  color: #8CFF80;
+  color: @base0B;
 }
 
 .icons-box {
-  background-color: #625951;
-  color: #fff8d0;
-  padding: 2px 10px;
-  border-radius: 8px;
+  background-color: @base05;
+  color: @base00;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
