@@ -22,11 +22,12 @@ in
     ];
     services.xserver = enabled' {
       displayManager.sddm = enabled' {
-        package = (pkgs.kdePackages.sddm.override {
+        package = (pkgs.libsForQt5.sddm.override {
           withWayland = true;
         });
         wayland = enabled;
-        theme = "elegant-sddm";
+        extraPackages = [ pkgs.libsForQt5.qt5.qtgraphicaleffects ];
+        theme = "Elegant";
       };
     };
   };

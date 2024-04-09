@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config
+, lib
+, pkgs
+, inputs
+, ...
+}:
 with lib;
 with lib.dnix;
 {
@@ -8,6 +13,10 @@ with lib.dnix;
       ./hardware-configuration.nix
     ];
   environment.variables.EDITOR = "nvim";
+  
+  programs.hyprland = enabled' {
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
 
   profiles.gaming = enabled;
   profiles.sddm = enabled;
