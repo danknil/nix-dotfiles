@@ -55,7 +55,7 @@ in {
           "col.active_border" = "rgb(${base00})";
           "col.inactive_border" = "rgb(${base05})";
 
-          layout = "master";
+          layout = "dwindle";
 
           # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
           allow_tearing = false;
@@ -112,11 +112,13 @@ in {
         };
 
         windowrulev2 = [
+          # xwaylandvideobridge
           "opacity 0.0 override 0.0 override,class:^(xwaylandvideobridge)$"
           "noanim,class:^(xwaylandvideobridge)$"
           "nofocus,class:^(xwaylandvideobridge)$"
           "noinitialfocus,class:^(xwaylandvideobridge)$"
 
+          # telegram media preview fullscreen
           "float,class:^(org.telegram.desktop)$,title:^(Просмотр медиа)$"
           "fullscreen,class:^(org.telegram.desktop)$,title:^(Просмотр медиа)$"
         ];

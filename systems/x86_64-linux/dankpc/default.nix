@@ -12,99 +12,66 @@ with lib.dnix;
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  environment.variables.EDITOR = "nvim";
-  
-  programs.hyprland = enabled' {
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  };
 
-  profiles.gaming = enabled;
-  profiles.sddm = enabled;
+  networking.hostName = "dankpc";
+  time.timeZone = "Asia/Novosibirsk";
 
   fileSystems."/".options = [ "defaults" "noatime" "discard" "commit=60" ];
-
-  boot = {
-    #kernelParams = [ ];
-    initrd.kernelModules = [ "amdgpu" ];
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
-  };
-
-  services.dbus.implementation = "broker";
 
   zramSwap = enabled' {
     priority = 100;
     memoryPercent = 80;
   };
 
-  services.udisks2 = enabled;
-  networking = {
-    hostName = "dankpc";
-    networkmanager = enabled;
-    firewall = enabled;
-  };
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
-  # Set your time zone.
-  time.timeZone = "Asia/Novosibirsk";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
-
-  programs.zsh = enabled;
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.danknil = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "corectrl" ];
     shell = pkgs.zsh;
   };
 
-  fonts.packages = with pkgs; [
-    # discord fonts
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-  ];
+  services.udisks2 = enabled;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    git
-    wget
-  ];
-
-  # setup opengl
-  hardware.opengl = enabled' {
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs.rocmPackages; [
-      clr
-      clr.icd
-    ];
-  };
-
-  # setup bluetooth
-  hardware.bluetooth = enabled' {
-    powerOnBoot = true;
-  };
-
-  hardware.enableAllFirmware = true; # enable all firmware (e.g. microcode)
-  services.fstrim = enabled; # enable fstrim for ssd
-
-  # disable sound because it isn't designed to use with pipewire
-  sound = disabled;
-
-  security.rtkit = enabled;
-  services.pipewire = enabled' {
-    alsa = enabled' {
-      support32Bit = true;
+  programs = {
+    corectrl = enabled' {
+      gpuOverclock = enabled;
     };
-    pulse = enabled;
-    jack = enabled;
+    hyprland = enabled' {
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+    zsh = enabled;
+    steam.gamescopeSession.args = [ "-O DP-1,*" ];
   };
 
+  profiles = {
+    # users.users = {
+    #   danknil = {
+    #     isSudo = true;
+    #     options = {
+    #       hyprland = true;
+    #       zsh = true;
+    #       udiskie = true;
+    #     };
+    #   };
+    # };
+    gaming = enabled' {
+      enableMinecraft = true;
+    };
+    sddm = enabled;
+    system = {
+      sound = enabled' {
+        lowLatency = enabled;
+      };
+      network = enabled;
+      bluetooth = true;
+      splash = true;
+      ssd = true;
+      graphics = {
+        extraPackages = [ pkgs.mesa_git.opencl ];
+        hdr = true;
+      };
+    };
+  };
   system.stateVersion = "23.11";
 }

@@ -3,8 +3,10 @@
 , config
 , ...
 }:
-let cfg = config.profiles.desktop.hyprshot;
-in with lib; {
+let
+  cfg = config.profiles.desktop.hyprshot;
+in
+with lib; {
   options.profiles.desktop.hyprshot = {
     enable = mkEnableOption "Enable hyprshot, screenshoter for hyprland";
     enablePicker = mkEnableOption "Enable hyprpicker for color picking";
@@ -15,9 +17,9 @@ in with lib; {
     home.packages = [ pkgs.hyprshot ];
     profiles.desktop.hyprland.extraConfig = {
       bind = [
-        ",Print, exec, hyprshot -m region"
+        "$mainMod SHIFT, S, exec, hyprshot -m region"
         "SHIFT, Print, exec, hyprshot -c -m output"
-        "CTRL SHIFT, Print, exec, hyprshot -c -m window"
+        #"$mainMod CTRL, Print, exec, hyprshot -c -m window"
       ];
     };
   };

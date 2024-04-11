@@ -17,7 +17,7 @@ with lib.dnix;
         extraConfig = {
           monitor = [ 
             "DP-1,preferred,0x0,1" 
-            "HDMI-A-1,preferred,2560x200,1,transform,3"
+            "HDMI-A-1,preferred,2560x-400,1,transform,3"
           ];
           workspace = [
             "1,monitor:DP-1" 
@@ -62,43 +62,18 @@ with lib.dnix;
     # programs setups
     alacritty = enabled;
     vivaldi = enabled;
+    mpv = enabled;
   };
 
   home.packages = with pkgs; [
-    # atool
-    atool
-    gnutar
-    gzip
-    pbzip2
-    plzip
-    lzop
-    lzip
-    zip
-    unzip
-    rar
-    lha
-    p7zip
-
     nomacs # image viewer
     vesktop # discord client
     telegram-desktop # telegram client
     zapzap # whatsapp client
     obsidian # note taking
-    # minecraft gameing :D
-    # (prismlauncher.override {
-    #   jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
-    #   withWaylandGLFW = true;
-    # }) 
-
-    # nix lsp
-    nixpkgs-fmt
-    nil
+    termusic # music from terminal
+    yt-dlp # to download from youtube 
   ];
-
-  # gtk.iconTheme = {
-  #   package = pkgs.numix-icon-theme;
-  #   name = "Numix";
-  # };
 
   services.udiskie = enabled' {
     tray = "never";

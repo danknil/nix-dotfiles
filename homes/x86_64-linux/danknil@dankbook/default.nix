@@ -75,15 +75,6 @@ with lib.dnix;
     telegram-desktop # telegram client
     zapzap # whatsapp client
     obsidian # note taking
-    # minecraft gameing :D
-    # (prismlauncher.override {
-    #   jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
-    #   withWaylandGLFW = true;
-    # }) 
-
-    # nix lsp
-    nixpkgs-fmt
-    nil
   ];
 
   # gtk.iconTheme = {

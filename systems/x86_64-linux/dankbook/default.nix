@@ -7,87 +7,55 @@ with lib.dnix;
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  environment.variables.EDITOR = "nvim";
-
-  # Set your time zone.
+  networking.hostName = "dankbook";
   time.timeZone = "Asia/Novosibirsk";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
+  services.udisks2 = enabled;
   programs.zsh = enabled;
+  programs.hyprland = enabled' {
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.danknil = {
     isNormalUser = true;
-    # fullName = "Mikhail Balashov";
-    # email = "danknil@protonmail.com";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
-  # Enable CUPS to print documents.
-  # services.printing = enabled' {
-  #   drivers = with pkgs; [ hplipWithPlugin ];
-  # };
-  # services.avahi = enabled' {
-  #   nssmdns4 = true;
-  #   # for a WiFi printer
-  #   openFirewall = true;
-  # };
+  environment.systemPackages = [ pkgs.tpm2-tss ];
 
-  fonts.packages = with pkgs; [
-    inconsolata-nerdfont
-  ];
+  fileSystems."/".options = [ "noatime" "nodiratime" "discard" "commit=120" ];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    git
-    tpm2-tss
-  ];
-
-  services.upower.enable = true;
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
-
-  powerManagement = enabled;
+  # power management setup
   systemd.sleep.extraConfig = "HibernateDelaySec=1200";
-  services.thermald = enabled;
-  services.tlp = enabled' {
-    # TODO: settings
-    settings = { };
+  services = {
+    upower = enabled;
+    thermald = enabled;
   };
+  powerManagement = enabled' {
+    powertop = enabled;
+  };
+  programs.auto-cpufreq = enabled' {
+    settings = {
+      charger = {
+        governor = "schedutil";
+        turbo = "auto";
+      };
 
-  services.dbus.implementation = "broker";
-  services.fstrim = enabled; # enable fstrim for ssd
-
+      battery = {
+        governor = "schedutil";
+        turbo = "off";
+        scaling_max_freq = 1500000;
+      };
+    };
+  };
 
   zramSwap = enabled' {
     priority = 100;
     memoryPercent = 80;
   };
 
-  services.udisks2 = enabled;
-  networking = {
-    hostName = "dankbook";
-    networkmanager = enabled' {
-      wifi.backend = "iwd";
-    };
-    firewall = enabled;
-  };
-
   # hardware setup
-
   boot.initrd.kernelModules = [ "i915" ]; # early boot gpu module
 
   # add vdpau to env
@@ -95,24 +63,36 @@ with lib.dnix;
     VDPAU_DRIVER = "va_gl";
   };
 
-  # setup opengl
-  hardware.opengl = enabled' {
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      intel-vaapi-driver
-      libvdpau-va-gl
-      intel-media-driver
-    ];
+  profiles = {
+    # users.users = {
+    #   danknil = {
+    #     isSudo = true;
+    #     options = {
+    #       hyprland = true;
+    #       zsh = true;
+    #       udiskie = true;
+    #     };
+    #   };
+    # };
+    gaming = enabled' {
+      enableMinecraft = true;
+    };
+    sddm = enabled;
+    system = {
+      sound = enabled;
+      network = enabled' {
+        wireless = true;
+      };
+      bluetooth = true;
+      splash = true;
+      ssd = true;
+      graphics.extraPackages = with pkgs; [
+        intel-vaapi-driver
+        libvdpau-va-gl
+        intel-media-driver
+      ];
+    };
   };
-
-  # setup bluetooth
-  hardware.bluetooth = enabled' {
-    powerOnBoot = true;
-  };
-
-  # enable all firmware (e.g. microcode)
-  hardware.enableAllFirmware = true;
 
   system.stateVersion = "23.11";
 }

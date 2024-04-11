@@ -18,8 +18,14 @@
     # for theming
     nix-colors.url = "github:Misterio77/nix-colors";
 
-    # for game packages & some optimization options
-    nix-gaming.url = "github:fufexan/nix-gaming";
+    # bleeding edge packages
+    chaotic.url = "https://flakehub.com/f/chaotic-cx/nyx/0.1.1068.tar.gz";
+
+    # for my laptop <3
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # neovim setup with nixos :D
     nixvim = {
@@ -69,8 +75,10 @@
     in
     lib.mkFlake {
       channels-config.allowUnfree = true;
-      systems.modules = with inputs; [
-        nixvim.nixosModules.nixvim
+
+      systems.modules.nixos = with inputs; [
+        chaotic.nixosModules.default
+        auto-cpufreq.nixosModules.default
       ];
 
       homes.modules = with inputs; [
@@ -85,5 +93,9 @@
       overlays = with inputs; [
         xdph.overlays.default
       ];
+
+      alias.shells = {
+        default = "nix-config";
+      };
     };
 }
