@@ -8,7 +8,7 @@ with lib.dnix;
     name = "danknil";
   };
 
-  colorscheme.name = "gruvbox-light-hard";
+  colorscheme.name = "gruvbox-light-medium";
 
   profiles = {
     desktop = {
@@ -74,7 +74,8 @@ with lib.dnix;
     vesktop # discord client
     telegram-desktop # telegram client
     zapzap # whatsapp client
-    obsidian # note taking
+    # FIXME: broken
+    #obsidian # note taking
   ];
 
   # gtk.iconTheme = {

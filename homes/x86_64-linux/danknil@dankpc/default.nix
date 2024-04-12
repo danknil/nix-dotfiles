@@ -70,7 +70,7 @@ with lib.dnix;
     vesktop # discord client
     telegram-desktop # telegram client
     zapzap # whatsapp client
-    obsidian # note taking
+    # obsidian # note taking
     termusic # music from terminal
     yt-dlp # to download from youtube 
   ];
