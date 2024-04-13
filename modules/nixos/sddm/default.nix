@@ -20,15 +20,13 @@ in
         };
       })
     ];
-    services.xserver = enabled' {
-      displayManager.sddm = enabled' {
-        package = (pkgs.libsForQt5.sddm.override {
-          withWayland = true;
-        });
-        wayland = enabled;
-        extraPackages = [ pkgs.libsForQt5.qt5.qtgraphicaleffects ];
-        theme = "Elegant";
-      };
+    services.displayManager.sddm = enabled' {
+      package = (pkgs.libsForQt5.sddm.override {
+        withWayland = true;
+      });
+      wayland = enabled;
+      extraPackages = [ pkgs.libsForQt5.qt5.qtgraphicaleffects ];
+      theme = "Elegant";
     };
   };
 }

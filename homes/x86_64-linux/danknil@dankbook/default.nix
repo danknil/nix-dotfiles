@@ -74,8 +74,7 @@ with lib.dnix;
     vesktop # discord client
     telegram-desktop # telegram client
     zapzap # whatsapp client
-    # FIXME: broken
-    #obsidian # note taking
+    obsidian # note taking
   ];
 
   # gtk.iconTheme = {
