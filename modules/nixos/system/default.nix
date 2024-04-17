@@ -179,7 +179,7 @@ in
               backend = "iwd";
             };
           };
-          firewall = enabled;
+          firewall = disabled;
         };
       })
 
