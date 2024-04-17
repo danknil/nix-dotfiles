@@ -15,15 +15,15 @@ with lib.dnix;
       # hyprland wm config
       hyprland = enabled' {
         extraConfig = {
-          monitor = [ 
-            "DP-1,preferred,0x0,1" 
+          monitor = [
+            "DP-1,preferred,0x0,1"
             "HDMI-A-1,preferred,2560x-400,1,transform,3"
           ];
           workspace = [
-            "1,monitor:DP-1" 
-            "2,monitor:HDMI-A-1" 
-            "3,monitor:DP-1" 
-            "4,monitor:DP-1" 
+            "1,monitor:DP-1"
+            "2,monitor:HDMI-A-1"
+            "3,monitor:DP-1"
+            "4,monitor:DP-1"
           ];
           device = [
             {
@@ -77,8 +77,11 @@ with lib.dnix;
     yt-dlp # to download from youtube 
   ];
 
-  services.udiskie = enabled' {
-    tray = "never";
+  services = {
+    udiskie = enabled' {
+      tray = "never";
+    };
+    syncthing = enabled;
   };
 
   home.stateVersion = "23.11";

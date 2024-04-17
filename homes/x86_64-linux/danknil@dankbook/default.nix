@@ -70,9 +70,11 @@ with lib.dnix;
   #   package = pkgs.numix-icon-theme;
   #   name = "Numix";
   # };
-
-  services.udiskie = enabled' {
-    tray = "never";
+  services = {
+    udiskie = enabled' {
+      tray = "never";
+    };
+    syncthing = enabled;
   };
 
   home.stateVersion = "23.11";
