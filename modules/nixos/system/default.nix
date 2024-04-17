@@ -58,7 +58,7 @@ in
 
         boot = {
           # use this kernel by default
-          # kernelPackages = pkgs.linuxPackages_cachyos;
+          kernelPackages = pkgs.linuxPackages_cachyos;
 
           # blacklist watchdog modules
           extraModprobeConfig = ''
@@ -111,6 +111,8 @@ in
       (mkIf cfg.bluetooth {
         hardware.bluetooth = enabled' {
           powerOnBoot = true;
+          package = pkgs.bluez;
+          input.General.ClassicBondedOnly = false;
         };
       })
 
@@ -126,7 +128,7 @@ in
           };
           # also enables gamescope-wsi and linux-cachyos
           hdr = mkIf cfg.graphics.hdr (enabled' {
-            # wsiPackage = pkgs.gamescope-wsi_git;
+            wsiPackage = pkgs.gamescope-wsi_git;
           });
         };
       })

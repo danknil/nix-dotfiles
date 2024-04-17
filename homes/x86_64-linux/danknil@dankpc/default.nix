@@ -8,7 +8,7 @@ with lib.dnix;
     name = "danknil";
   };
 
-  colorSchemeName = "gruvbox-light-medium";
+  colorSchemeName = "gruvbox-material-light-medium";
 
   profiles = {
     desktop = {
@@ -63,6 +63,7 @@ with lib.dnix;
     alacritty = enabled;
     vivaldi = enabled;
     mpv = enabled;
+    neovim = enabled;
   };
 
   home.packages = with pkgs; [
@@ -72,6 +73,7 @@ with lib.dnix;
     zapzap # whatsapp client
     obsidian # note taking
     termusic # music from terminal
+    onlyoffice-bin # office suit
     yt-dlp # to download from youtube 
   ];
 

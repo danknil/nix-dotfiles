@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
-
     # Hypr software, my beloved <3
     hyprland.url = "github:hyprwm/Hyprland";
     hyprpaper.url = "github:hyprwm/hyprpaper";
@@ -19,8 +18,8 @@
     nix-colors.url = "github:Misterio77/nix-colors";
 
     # bleeding edge packages
-    chaotic.url = "https://flakehub.com/f/chaotic-cx/nyx/0.1.1068.tar.gz";
-
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    
     # for my laptop <3
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -78,6 +77,11 @@
 
       systems.modules.nixos = with inputs; [
         chaotic.nixosModules.default
+        {
+          # manually import overlay
+          chaotic.nyx.overlay.enable = false;
+        }
+
         auto-cpufreq.nixosModules.default
       ];
 
@@ -87,11 +91,13 @@
         hyprlock.homeManagerModules.default
         hyprpaper.homeManagerModules.default
         ags.homeManagerModules.default
-        nix-colors.homeManagerModule
+        nix-colors.homeManagerModules.default
+        nixvim.homeManagerModules.nixvim
       ];
 
       overlays = with inputs; [
         xdph.overlays.default
+        chaotic.overlays.default
       ];
 
       alias.shells = {

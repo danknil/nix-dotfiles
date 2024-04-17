@@ -28,23 +28,30 @@ in {
       gpu-screen-recorder # for replays
       dnix.mons # modmanager for celeste
       r2modman # modmanager for unity games
+
+      # add bluetooth to system package to be available here for steam
+      bluez
+      bluez-tools
     ] ++ optional cfg.enableMinecraft (pkgs.prismlauncher.override {
       jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
       # withWaylandGLFW = true;
     });
 
-    chaotic.steam.extraCompatPackages = with pkgs; [
-      dnix.steamtinkerlaunch
-      proton-ge-bin
-    ];
 
     programs = {
       gamemode = enabled;
-      # gamescope.package = pkgs.gamescope_git;
+      gamescope.package = pkgs.gamescope_git;
       steam = enabled' {
         package = pkgs.steam.override {
-          extraPkgs = p: with p; [ bluez bluez-tools ];
+          extraPkgs = p: with p; [ 
+            bluez 
+            bluez-tools
+          ];
         };
+        extraCompatPackages = with pkgs; [
+          dnix.steamtinkerlaunch
+          proton-ge-bin
+        ];
         gamescopeSession = enabled;
       };
     };

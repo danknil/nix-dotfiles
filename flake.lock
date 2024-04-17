@@ -107,16 +107,18 @@
         "yafas": "yafas"
       },
       "locked": {
-        "lastModified": 1712934045,
-        "narHash": "sha256-8AJRmvi3aQTHNq18nRIasCga9Uf+BImpEe6slKwy+6E=",
-        "rev": "a086da23290c6d34b2c02e201f47bb26cdaaa6a7",
-        "revCount": 1074,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/chaotic-cx/nyx/0.1.1074%2Brev-a086da23290c6d34b2c02e201f47bb26cdaaa6a7/018ed2d6-6996-7381-9a5b-6cfa76cf4cb0/source.tar.gz"
+        "lastModified": 1713020398,
+        "narHash": "sha256-fZ9snNCxKj5sJ/hymCW8aM8Lzlbzo/VYYfl/oNLh/jc=",
+        "owner": "chaotic-cx",
+        "repo": "nyx",
+        "rev": "f0e16565b38a473664977625680f08e7cc9dec50",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/chaotic-cx/nyx/0.1.1068.tar.gz"
+        "owner": "chaotic-cx",
+        "ref": "nyxpkgs-unstable",
+        "repo": "nyx",
+        "type": "github"
       }
     },
     "compare-to": {

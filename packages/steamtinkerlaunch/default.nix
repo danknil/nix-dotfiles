@@ -51,7 +51,8 @@ stdenv.mkDerivation rec {
       xorg.xwininfo
       yad
     ]}
-    ln -s $out/bin/steamtinkerlaunch $steamcompattool
+    mkdir -p $steamcompattool/SteamTinkerLaunch
+    ln -s $out/bin/steamtinkerlaunch $steamcompattool/SteamTinkerLaunch
   '';
 
   meta = with lib; {

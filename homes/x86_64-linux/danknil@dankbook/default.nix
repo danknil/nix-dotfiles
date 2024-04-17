@@ -53,28 +53,17 @@ with lib.dnix;
     # programs setups
     alacritty = enabled;
     vivaldi = enabled;
+    neovim = enabled;
+    mpv = enabled;
   };
 
   home.packages = with pkgs; [
-    # atool
-    atool
-    gnutar
-    gzip
-    pbzip2
-    plzip
-    lzop
-    lzip
-    zip
-    unzip
-    rar
-    lha
-    p7zip
-
     nomacs # image viewer
     vesktop # discord client
     telegram-desktop # telegram client
     zapzap # whatsapp client
     obsidian # note taking
+    onlyoffice-bin # office suit
   ];
 
   # gtk.iconTheme = {
