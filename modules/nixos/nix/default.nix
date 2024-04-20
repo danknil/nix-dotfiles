@@ -18,11 +18,13 @@ _: {
       keep-outputs = true
       warn-dirty = false
       keep-derivations = true
+      use-xdg-base-directories = true
     '';
     settings = {
       accept-flake-config = true;
       allowed-users = [ "@wheel" ];
       auto-optimise-store = true;
+      use-xdg-base-directories = true;
       builders-use-substitutes = true;
       experimental-features = [
         "auto-allocate-uids"

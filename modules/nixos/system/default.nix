@@ -58,7 +58,7 @@ in
 
         boot = {
           # use this kernel by default
-          kernelPackages = pkgs.linuxPackages_cachyos;
+          kernelPackages = mkForce pkgs.linuxPackages_cachyos;
 
           # blacklist watchdog modules
           extraModprobeConfig = ''
@@ -129,6 +129,7 @@ in
           # also enables gamescope-wsi and linux-cachyos
           hdr = mkIf cfg.graphics.hdr (enabled' {
             wsiPackage = pkgs.gamescope-wsi_git;
+            specialisation = disabled;
           });
         };
       })

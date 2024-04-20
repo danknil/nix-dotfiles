@@ -137,7 +137,6 @@ in {
           "$mainMod, M, exit,"
           "$mainMod, E, exec, dolphin"
           "$mainMod, V, togglefloating,"
-          "$mainMod, R, exec, rofi -show drun"
 
           # Move focus with mainMod + arrow keys
           "$mainMod, left, movefocus, l"

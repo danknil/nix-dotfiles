@@ -13,6 +13,7 @@ in {
     home.sessionVariables = {
       TERM = "alacritty";
     };
+
     fonts.nerdfonts = [
       "SourceCodePro"
       # TODO: test this fonts
@@ -20,9 +21,8 @@ in {
       # "IBMPlexMono"
       # "Mononoki"
     ];
-    programs.alacritty = {
-      enable = true;
-      # TODO: extra settings
+
+    programs.alacritty = enabled' {
       settings = {
         live_config_reload = false;
         window = {

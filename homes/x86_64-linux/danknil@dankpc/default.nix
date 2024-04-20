@@ -46,11 +46,13 @@ with lib.dnix;
       #   };
       # };
 
-      hypridle = enabled;
+      # hypridle = enabled;
       clipman = enabled;
       hyprshot = enabled;
       ags = enabled;
+      anyrun = enabled;
       rofi = enabled;
+
       # wbg = enabled' {
       #   wallpaperImg = "~/Wallpapers/saber-dark.png";
       # };
@@ -58,23 +60,24 @@ with lib.dnix;
     shell = enabled;
   };
 
-  apps = {
-    # programs setups
-    alacritty = enabled;
-    vivaldi = enabled;
-    mpv = enabled;
-    neovim = enabled;
-  };
+  apps = valueForEach [
+    "alacritty" # terminal
+    "vivaldi" # browser
+    "mpv" # video player
+    "neovim" # editor
+    "nomacs" # image viewer
+    "vesktop" # discord client
+    "telegram" # telegram client
+    "onlyoffice" # office suit
+    "pcmanfm" # file manager
+    "gimp"
+  ]
+    { enable = true; };
 
   home.packages = with pkgs; [
-    nomacs # image viewer
-    vesktop # discord client
-    telegram-desktop # telegram client
-    zapzap # whatsapp client
     obsidian # note taking
-    termusic # music from terminal
-    onlyoffice-bin # office suit
     yt-dlp # to download from youtube 
+    dnix.pavucontrol-qt # control sound
   ];
 
   services = {

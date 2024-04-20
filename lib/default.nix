@@ -18,14 +18,20 @@ with lib; rec {
     B = builtins.substring 4 2 color;
   };
 
+  valueForEach = names: value: foldr
+    (name: acc: acc // { "${name}" = value; })
+    { }
+    (unique names);
+
   recursiveMerge =
     zipAttrsWith (n: values:
-      if tail values == [ ]
-      then head values
-      else if all isList values
+      # if list we merge
+      if all isList values
       then unique (concatLists values)
+      # if attrs we recursing
       else if all isAttrs values
       then recursiveMerge values
+      # else return last
       else last values
     );
 }

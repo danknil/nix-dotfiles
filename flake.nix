@@ -9,17 +9,21 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprpaper.url = "github:hyprwm/hyprpaper";
     hypridle.url = "github:hyprwm/hypridle";
-    # TODO: add to packages in hyprshot
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprlock.url = "github:hyprwm/hyprlock";
     xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for theming
     nix-colors.url = "github:Misterio77/nix-colors";
 
     # bleeding edge packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    
+
     # for my laptop <3
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -93,6 +97,7 @@
         ags.homeManagerModules.default
         nix-colors.homeManagerModules.default
         nixvim.homeManagerModules.nixvim
+        anyrun.homeManagerModules.default
       ];
 
       overlays = with inputs; [

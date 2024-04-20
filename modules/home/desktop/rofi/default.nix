@@ -9,11 +9,9 @@ in {
     enable = mkEnableOption "Enable rofi";
   };
   config = lib.mkIf cfg.enable {
-    profiles.desktop.hyprland.extraConfig = {
-      bind = [
-        "$mainMod, R, exec, rofi -show drun"
-      ];
-    };
+    profiles.desktop.hyprland.extraConfig.bind = [
+      "$mainMod, R, exec, rofi -show drun"
+    ];
     programs.rofi = {
       enable = true;
       package = pkgs.rofi-wayland;

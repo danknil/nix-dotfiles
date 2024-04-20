@@ -34,6 +34,25 @@ with lib.dnix;
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.neovide ];
+
+    xdg.mimeApps.defaultApplications = valueForEach [
+      "text/english"
+      "text/plain"
+      "text/x-makefile"
+      "text/x-c++hdr"
+      "text/x-c++src"
+      "text/x-chdr"
+      "text/x-csrc"
+      "text/x-java"
+      "text/x-moc"
+      "text/x-pascal"
+      "text/x-tcl"
+      "text/x-tex"
+      "application/x-shellscript"
+      "text/x-c"
+      "text/x-c++"
+    ] "neovide.desktop";
+
     programs.nixvim = enabled' {
       viAlias = true;
       vimAlias = true;
@@ -165,6 +184,7 @@ with lib.dnix;
           "gr".action = "<cmd>Trouble lsp_references<cr>";
           "<leader>d".action = "<cmd>Trouble workspace_diagnostics<cr>";
           "<leader>D".action = "<cmd>TodoTelescope<cr>";
+          "<leader>tp".action = "<cmd>lua require'telescope'.extensions.projects.projects{}<cr>";
         };
         i = {
           "<C-n>".action = "<Plug>(luasnip-next-choice)";
@@ -231,15 +251,28 @@ with lib.dnix;
         };
 
         # ui
+        # alpha = enabled' {
+        #   iconsEnabled = false;
+        #   theme = "dashboard";
+        # };
+        project-nvim = enabled' {
+          enableTelescope = true;
+        };
         todo-comments = enabled;
         indent-blankline = enabled;
         gitsigns = enabled;
         trouble = enabled;
         noice = enabled;
-        barbecue = enabled;
+        barbecue = enabled' {
+          leadCustomSection = ''
+            function()
+              return { { " ", "WinBar" } }
+            end,
+          '';
+        };
         oil = enabled;
         bufferline = enabled' {
-          alwaysShowBufferline = false;
+          alwaysShowBufferline = true;
           bufferCloseIcon = null;
           closeIcon = null;
           diagnostics = "nvim_lsp";
@@ -257,14 +290,14 @@ with lib.dnix;
             right = " ";
           };
           sections = {
-            lualine_b = [""];
-            lualine_c = [""];
-            lualine_x = [""];
-            lualine_y = [""];
+            lualine_b = [ "" ];
+            lualine_c = [ "" ];
+            lualine_x = [ "" ];
+            lualine_y = [ "" ];
           };
           inactiveSections = {
-            lualine_c = [""];
-            lualine_x = [""];
+            lualine_c = [ "" ];
+            lualine_x = [ "" ];
           };
         };
 
@@ -301,6 +334,8 @@ with lib.dnix;
             java-language-server = enabled;
             # c/c++
             clangd = enabled;
+            # julia
+            julials = enabled;
           };
           keymaps.lspBuf = {
             "gD" = "declaration";

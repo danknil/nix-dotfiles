@@ -69,7 +69,7 @@ with lib.dnix;
       ssd = true;
       graphics = {
         extraPackages = [ pkgs.mesa_git.opencl ];
-        hdr = true;
+        hdr = false;
       };
     };
   };

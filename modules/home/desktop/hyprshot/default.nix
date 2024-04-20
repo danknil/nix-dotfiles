@@ -15,12 +15,10 @@ with lib; {
   config = mkIf cfg.enable {
     # TODO: setup picker
     home.packages = [ pkgs.hyprshot ];
-    profiles.desktop.hyprland.extraConfig = {
-      bind = [
-        "$mainMod SHIFT, S, exec, hyprshot -m region"
-        "SHIFT, Print, exec, hyprshot -c -m output"
-        #"$mainMod CTRL, Print, exec, hyprshot -c -m window"
-      ];
-    };
+    profiles.desktop.hyprland.extraConfig.bind = [
+      "$mainMod SHIFT, S, exec, hyprshot -m region"
+      "SHIFT, Print, exec, hyprshot -c -m output"
+      #"$mainMod CTRL, Print, exec, hyprshot -c -m window"
+    ];
   };
 }

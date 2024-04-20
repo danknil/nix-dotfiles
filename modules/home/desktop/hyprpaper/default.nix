@@ -14,9 +14,5 @@ in with lib; {
     services.hyprpaper = {
       enable = true;
     } // cfg.extraConfig;
-    # INFO: do i need this?
-    # profiles.desktop.hyprland.extraConfig = {
-    #   exec-once = [ "hyprpaper" ];
-    # };
   };
 }
