@@ -2,7 +2,8 @@
   description = "DankNil main nix flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
     # Hypr software, my beloved <3
@@ -31,14 +32,14 @@
     };
 
     # neovim setup with nixos :D
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixvim = {
+    #   url = "github:nix-community/nixvim";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
 
     # For building my home folder
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -52,61 +53,106 @@
       url = "github:gytis-ivaskevicius/flake-utils-plus";
       inputs.flake-utils.follows = "flake-utils";
     };
-    snowfall-lib = {
-      url = "github:snowfallorg/lib/dev";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils-plus.follows = "flake-utils-plus";
-    };
   };
 
-  outputs = inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
-      lib = inputs.snowfall-lib.mkLib {
-        inherit inputs;
-        src = ./.;
+      inherit (self) outputs;
+      # Supported systems for your flake packages, shell, etc.
+      systems = [
+        "aarch64-linux"
+        "i686-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      # This is a function that generates an attribute by calling a function you
+      # pass to it, with each system as an argument
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+    in
+    {
+      # Your custom packages
+      # Accessible through 'nix build', 'nix shell', etc
+      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      # Formatter for your nix files, available through 'nix fmt'
+      # Other options beside 'alejandra' include 'nixpkgs-fmt'
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-        snowfall = {
-          namespace = "dnix";
-          meta = {
-            # Your flake's preferred name in the flake registry.
-            name = "danknil-flake";
-            # A pretty name for your flake.
-            title = "DankNil's Flake System configuration";
-          };
+      # Your custom packages and modifications, exported as overlays
+      overlays = import ./overlays { inherit inputs; };
+      # Reusable nixos modules you might want to export
+      # These are usually stuff you would upstream into nixpkgs
+      nixosModules = import ./modules/nixos;
+      # Reusable home-manager modules you might want to export
+      # These are usually stuff you would upstream into home-manager
+      homeManagerModules = import ./modules/home-manager;
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = {
+        # danknil's notebook
+        nymphaea = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./systems/nymphaea
+          ];
+        };
+        # danknil's pc
+        dianthus = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./systems/dianthus
+          ];
         };
       };
-    in
-    lib.mkFlake {
-      channels-config.allowUnfree = true;
 
-      systems.modules.nixos = with inputs; [
-        chaotic.nixosModules.default
-        {
-          # manually import overlay
-          chaotic.nyx.overlay.enable = false;
-        }
-
-        auto-cpufreq.nixosModules.default
-      ];
-
-      homes.modules = with inputs; [
-        hyprland.homeManagerModules.default
-        hypridle.homeManagerModules.default
-        hyprlock.homeManagerModules.default
-        hyprpaper.homeManagerModules.default
-        ags.homeManagerModules.default
-        nix-colors.homeManagerModules.default
-        nixvim.homeManagerModules.nixvim
-        anyrun.homeManagerModules.default
-      ];
-
-      overlays = with inputs; [
-        xdph.overlays.default
-        chaotic.overlays.default
-      ];
-
-      alias.shells = {
-        default = "nix-config";
-      };
+      # # Standalone home-manager configuration entrypoint
+      # # Available through 'home-manager --flake .#your-username@your-hostname'
+      # homeConfigurations = {
+      #   # FIXME replace with your username@hostname
+      #   "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
+      #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+      #     extraSpecialArgs = { inherit inputs outputs; };
+      #     modules = [
+      #       # > Our main home-manager configuration file <
+      #       ./home-manager/home.nix
+      #     ];
+      #   };
+      # };
     };
+  # lib.mkFlake {
+  #
+  #   channels-config.allowUnfree = true;
+  #
+  #   systems.modules.nixos = with inputs; [
+  #     chaotic.nixosModules.default
+  #     {
+  #       # manually import overlay
+  #       chaotic.nyx.overlay.enable = false;
+  #     }
+  #
+  #     auto-cpufreq.nixosModules.default
+  #   ];
+  #
+  #   homes.modules = with inputs; [
+  #     hyprland.homeManagerModules.default
+  #     hypridle.homeManagerModules.default
+  #     hyprlock.homeManagerModules.default
+  #     hyprpaper.homeManagerModules.default
+  #     ags.homeManagerModules.default
+  #     nix-colors.homeManagerModules.default
+  #     nixvim.homeManagerModules.nixvim
+  #     anyrun.homeManagerModules.default
+  #   ];
+  #
+  #   overlays = with inputs; [
+  #     xdph.overlays.default
+  #     chaotic.overlays.default
+  #   ];
+  #
+  #   alias.shells = {
+  #     default = "nix-config";
+  #   };
+  # };
 }
