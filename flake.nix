@@ -19,8 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # for theming
-    nix-colors.url = "github:Misterio77/nix-colors";
+    stylix.url = "github:danth/stylix";
 
     # bleeding edge packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -43,67 +42,57 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Flake builder
-    systems.url = "github:msfjarvis/flake-systems";
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-    flake-utils-plus = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus";
-      inputs.flake-utils.follows = "flake-utils";
-    };
+    # System list
+    systems.url = "github:nix-systems/default";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , home-manager
+    , systems
+    , ...
+    }@inputs:
     let
       inherit (self) outputs;
-      # Supported systems for your flake packages, shell, etc.
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      # This is a function that generates an attribute by calling a function you
-      # pass to it, with each system as an argument
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+
+      forAllSystems = nixpkgs.lib.genAttrs (import systems);
+
+      lib = nixpkgs.lib.extend
+        (final: prev: (import ./lib final) // home-manager.lib);
     in
     {
       # Your custom packages
       # Accessible through 'nix build', 'nix shell', etc
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+
       # Formatter for your nix files, available through 'nix fmt'
       # Other options beside 'alejandra' include 'nixpkgs-fmt'
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
+
       # Reusable nixos modules you might want to export
       # These are usually stuff you would upstream into nixpkgs
       nixosModules = import ./modules/nixos;
+
       # Reusable home-manager modules you might want to export
       # These are usually stuff you would upstream into home-manager
       homeManagerModules = import ./modules/home-manager;
+
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         # danknil's notebook
-        nymphaea = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main nixos configuration file <
-            ./systems/nymphaea
-          ];
+        nymphaea = lib.nixosSystem {
+          specialArgs = { inherit lib inputs outputs; };
+          modules = [ ./systems/nymphaea ];
         };
         # danknil's pc
-        dianthus = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main nixos configuration file <
-            ./systems/dianthus
-          ];
+        dianthus = lib.nixosSystem {
+          specialArgs = { inherit lib inputs outputs; };
+          modules = [ ./systems/dianthus ];
         };
       };
 

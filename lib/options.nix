@@ -1,5 +1,4 @@
 { mkOption
-, mkIf
 , ...
 }: rec {
   mkOpt = type: default: description:
@@ -11,6 +10,4 @@
 
   enabled' = added: { enable = true; } // added;
   enabled = enabled' { };
-
-  ifEnabled = cfg: mkIf cfg.enable;
 }
