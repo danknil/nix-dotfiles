@@ -1,9 +1,8 @@
 { lib
-, pkgs
 , stdenv
 , fetchFromGitHub
 , cmake
-  # , lxqt-build-tools
+, callPackage
 , kdePackages
 , gitUpdater
 , ...
@@ -22,7 +21,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     cmake
-    pkgs.dnix.lxqt-build-tools
+    (callPackage ../lxqt-build-tools { })
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];

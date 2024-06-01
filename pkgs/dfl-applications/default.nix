@@ -1,7 +1,7 @@
 { stdenv
 , lib
-, pkgs
 , fetchFromGitLab
+, callPackage
 , meson
 , pkg-config
 , ninja
@@ -34,9 +34,9 @@ stdenv.mkDerivation rec {
     kdePackages.qttools
   ];
 
-  buildInputs = with pkgs.dnix; [
+  buildInputs = [
     kdePackages.qtbase
-    dfl-ipc
+    (callPackage ../dfl-ipc)
   ];
 
   mesonFlags = [

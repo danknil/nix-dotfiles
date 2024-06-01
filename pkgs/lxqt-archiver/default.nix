@@ -1,6 +1,6 @@
 { lib
 , stdenv
-, dnix
+, callPackage
 , kdePackages
 , fetchFromGitHub
 , cmake
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    dnix.lxqt-build-tools
+    (callPackage ../lxqt-build-tools { })
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     json-glib
     libexif
-    dnix.libfm-qt
+    (callPackage ../libfm-qt { })
     menu-cache
     kdePackages.qtbase
   ];

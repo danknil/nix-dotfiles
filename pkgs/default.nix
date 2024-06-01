@@ -1,6 +1,6 @@
 { lib, callPackage, ... }:
 let
-  mergePackages = lib.fold (pkg: acc: { ${pkg} = callPackage ./${pkg} { }; } // acc);
+  mergePackages = lib.fold (pkg: acc: { ${pkg} = callPackage ./${pkg} { }; } // acc) { };
 in
 mergePackages [
   "gimp-devel"

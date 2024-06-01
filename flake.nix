@@ -2,8 +2,8 @@
   description = "DankNil main nix flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
     # Hypr software, my beloved <3
@@ -30,15 +30,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # neovim setup with nixos :D
-    # nixvim = {
-    #   url = "github:nix-community/nixvim";
-    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # };
-
     # For building my home folder
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -71,7 +65,7 @@
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { inherit lib inputs; };
 
       # Reusable nixos modules you might want to export
       # These are usually stuff you would upstream into nixpkgs

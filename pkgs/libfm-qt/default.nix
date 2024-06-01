@@ -1,13 +1,12 @@
 { lib
 , stdenv
-, dnix
 , fetchFromGitHub
 , cmake
 , xorg
 , libexif
 , libfm
+, callPackage
 , kdePackages
-  # , lxqt-build-tools
 , menu-cache
 , pcre
 , pkg-config
@@ -33,7 +32,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    dnix.lxqt-build-tools
+    (callPackage ../lxqt-build-tools { })
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -44,7 +43,7 @@ stdenv.mkDerivation rec {
     libfm
     xorg.libpthreadstubs
     xorg.libxcb
-    dnix.lxqt-menu-data
+    (callPackage ../lxqt-menu-data { })
     menu-cache
     pcre
   ];

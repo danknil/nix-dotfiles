@@ -1,5 +1,5 @@
 { lib
-, pkgs
+, callPackage
 , stdenv
 , kdePackages
 , meson
@@ -42,13 +42,13 @@ stdenv.mkDerivation {
     kdePackages.qttools
   ];
 
-  buildInputs = with pkgs.dnix; [
+  buildInputs = [
     kdePackages.qtbase
     kdePackages.wayqt
-    dfl-login1
-    dfl-utils
-    dfl-applications
-    dfl-ipc
+    (callPackage ../dfl-login1 { })
+    (callPackage ../dfl-utils { })
+    (callPackage ../dfl-applications { })
+    (callPackage ../dfl-ipc { })
     json_c
     mpv-unwrapped
     wlroots

@@ -1,14 +1,11 @@
 { lib
-, pkgs
-, dnix
 , stdenv
+, callPackage
 , fetchFromGitHub
 , cmake
 , pkg-config
 , kdePackages
 , libexif
-  # , lxqt-build-tools
-  # , lxqt-menu-data
 , menu-cache
 , gitUpdater
 , ...
@@ -28,7 +25,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    pkgs.dnix.lxqt-build-tools
+    (callPackage ../lxqt-build-tools { })
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -36,10 +33,10 @@ stdenv.mkDerivation rec {
   buildInputs = [
     kdePackages.layer-shell-qt
     libexif
-    pkgs.dnix.lxqt-menu-data
+    (callPackage ../lxqt-menu-data { })
+    (callPackage ../libfm-qt { })
     kdePackages.qtbase
     kdePackages.qtimageformats # add-on module to support more image file formats
-    dnix.libfm-qt
     menu-cache
   ];
 

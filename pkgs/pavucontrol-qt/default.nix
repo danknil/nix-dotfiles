@@ -1,10 +1,9 @@
 { lib
-, pkgs
 , stdenv
+, callPackage
 , fetchFromGitHub
 , cmake
 , pkg-config
-  # , lxqt-build-tools
 , libpulseaudio
 , kdePackages
 , gitUpdater
@@ -25,7 +24,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    pkgs.dnix.lxqt-build-tools
+    (callPackage ../lxqt-build-tools { })
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
