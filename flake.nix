@@ -81,61 +81,13 @@
         # danknil's notebook
         nymphaea = lib.nixosSystem {
           specialArgs = { inherit lib inputs outputs; };
-          modules = [ ./systems/nymphaea ];
+          modules = [ ./nixos/nymphaea ];
         };
         # danknil's pc
         dianthus = lib.nixosSystem {
           specialArgs = { inherit lib inputs outputs; };
-          modules = [ ./systems/dianthus ];
+          modules = [ ./nixos/dianthus ];
         };
       };
-
-      # # Standalone home-manager configuration entrypoint
-      # # Available through 'home-manager --flake .#your-username@your-hostname'
-      # homeConfigurations = {
-      #   # FIXME replace with your username@hostname
-      #   "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
-      #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-      #     extraSpecialArgs = { inherit inputs outputs; };
-      #     modules = [
-      #       # > Our main home-manager configuration file <
-      #       ./home-manager/home.nix
-      #     ];
-      #   };
-      # };
     };
-  # lib.mkFlake {
-  #
-  #   channels-config.allowUnfree = true;
-  #
-  #   systems.modules.nixos = with inputs; [
-  #     chaotic.nixosModules.default
-  #     {
-  #       # manually import overlay
-  #       chaotic.nyx.overlay.enable = false;
-  #     }
-  #
-  #     auto-cpufreq.nixosModules.default
-  #   ];
-  #
-  #   homes.modules = with inputs; [
-  #     hyprland.homeManagerModules.default
-  #     hypridle.homeManagerModules.default
-  #     hyprlock.homeManagerModules.default
-  #     hyprpaper.homeManagerModules.default
-  #     ags.homeManagerModules.default
-  #     nix-colors.homeManagerModules.default
-  #     nixvim.homeManagerModules.nixvim
-  #     anyrun.homeManagerModules.default
-  #   ];
-  #
-  #   overlays = with inputs; [
-  #     xdph.overlays.default
-  #     chaotic.overlays.default
-  #   ];
-  #
-  #   alias.shells = {
-  #     default = "nix-config";
-  #   };
-  # };
 }

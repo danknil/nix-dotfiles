@@ -1,8 +1,8 @@
 rec {
-  # nix = import ./nix.nix;
-  # system = import ./system.nix;
+  services = import ./services;
   default = _: {
     imports = [ 
+      services
     ];
   };
 }

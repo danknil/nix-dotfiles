@@ -1,6 +1,13 @@
-lib: rec {
+lib:
+let
+  inherit (lib) mkOption
+    foldr unique zipAttrsWith
+    all isList concatLists
+    isAttrs last;
+in
+rec {
   mkOpt = type: default: description:
-    lib.mkOption { inherit type default description; };
+    mkOption { inherit type default description; };
 
   mkOpt' = type: default: mkOpt type default null;
 
@@ -15,20 +22,26 @@ lib: rec {
     B = builtins.substring 4 2 color;
   };
 
-  valueForEach = names: value: lib.foldr
+  valueForEach = names: value: foldr
     (name: acc: acc // { "${name}" = value; })
     { }
-    (lib.unique names);
+    (unique names);
 
   recursiveMerge =
-    lib.zipAttrsWith (n: values:
+    zipAttrsWith (n: values:
       # if list we merge
-      if lib.all lib.isList values
-      then lib.unique (lib.concatLists values)
+      if all isList values
+      then unique (concatLists values)
       # if attrs we recursing
-      else if lib.all lib.isAttrs values
+      else if all isAttrs values
       then recursiveMerge values
       # else return last
-      else lib.last values
+      else last values
     );
+
+  # FIXME: not working, fix exist?
+  getHomeConfig = homeConfigurations:
+    { hostname, username ? "" }:
+      homeConfigurations."${username}@${hostname}" or homeConfigurations."${username}";
+
 }
