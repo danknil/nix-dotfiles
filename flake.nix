@@ -14,6 +14,8 @@
     hyprlock.url = "github:hyprwm/hyprlock";
     xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     anyrun = {
       url = "github:anyrun-org/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";

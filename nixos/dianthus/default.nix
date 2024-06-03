@@ -7,7 +7,10 @@
 }:
 let
   inherit (lib) enabled enabled';
-  # get user config
+  hardwareSetup = with inputs.nixos-hardware.nixosModules; [
+    common-pc-ssd
+    common-cpu-intel
+  ];
 in
 {
   imports =  [
@@ -33,6 +36,14 @@ in
   networking.hostName = "dianthus";
   time.timeZone = "Asia/Novosibirsk";
   i18n.defaultLocale = "en_DK.UTF-8";
+
+  stylix = {
+    polarity = "light";
+    image = pkgs.fetchurl {
+      url = "https://i.imgur.com/tqLFc8y.jpeg";
+      hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
+    };
+  };
 
   fileSystems."/".options = [ "defaults" "noatime" "discard" "commit=60" ];
 

@@ -56,32 +56,32 @@ in
   #   shell = enabled;
   # };
 
-  apps = valueForEach [
-    "alacritty" # terminal
-    "vivaldi" # browser
-    "mpv" # video player
-    "neovim" # editor
-    "nomacs" # image viewer
-    "vesktop" # discord client
-    "telegram" # telegram client
-    "onlyoffice" # office suit
-    "pcmanfm" # file manager
-    "gimp"
-  ]
-    { enable = true; };
-
-  home.packages = with pkgs; [
-    obsidian # note taking
-    yt-dlp # to download from youtube 
-    dnix.pavucontrol-qt # control sound
-  ];
-
-  services = {
-    udiskie = enabled' {
-      tray = "never";
-    };
-    syncthing = enabled;
-  };
-
+  # apps = valueForEach [
+  #   "alacritty" # terminal
+  #   "vivaldi" # browser
+  #   "mpv" # video player
+  #   "neovim" # editor
+  #   "nomacs" # image viewer
+  #   "vesktop" # discord client
+  #   "telegram" # telegram client
+  #   "onlyoffice" # office suit
+  #   "pcmanfm" # file manager
+  #   "gimp"
+  # ]
+  #   { enable = true; };
+  #
+  # home.packages = with pkgs; [
+  #   obsidian # note taking
+  #   yt-dlp # to download from youtube 
+  #   dnix.pavucontrol-qt # control sound
+  # ];
+  #
+  # services = {
+  #   udiskie = enabled' {
+  #     tray = "never";
+  #   };
+  #   syncthing = enabled;
+  # };
+  #
   home.stateVersion = "23.11";
 }

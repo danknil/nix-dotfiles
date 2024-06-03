@@ -11,12 +11,12 @@ in
   environment.systemPackages = [ pkgs.elegant-sddm ];
 
   services.displayManager.sddm = enabled' {
-    package = (pkgs.kdePackages.sddm.override {
-      withWayland = true;
-    });
+    # package = (pkgs.kdePackages.sddm.override {
+    #   withWayland = true;
+    # });
     wayland = enabled;
-    extraPackages = [ pkgs.libsForQt5.qt5.qtgraphicaleffects ];
-    theme = "Elegant";
+    # extraPackages = [ pkgs.libsForQt5.qt5.qtgraphicaleffects ];
+    # theme = "Elegant";
   };
 
   systemd.services."plymouth-transition" = enabled' {

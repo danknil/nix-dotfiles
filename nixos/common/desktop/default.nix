@@ -38,9 +38,6 @@ in
   # enable disk manager
   services.udisks2 = enabled;
 
-  # enable fstrim by default
-  services.fstrim.enable = mkDefault true;
-
   # disable sound because it doesn't work with pipewire
   sound = disabled;
 

@@ -3,21 +3,25 @@
 , pkgs
 , inputs
 , outputs
+, config
 , ...
 }:
 let
-  inherit (lib) enabled enabled' getHomeConfig;
-  # get user config
-  danknilConfig = getHomeConfig outputs.homeConfigurations {
-    hostname = "nymphaea";
-    username = "danknil";
-  };
+  inherit (lib) enabled enabled';
+  hardwareSetup = with inputs.nixos-hardware.nixosModules; [
+    common-pc-ssd
+    common-cpu-intel
+  ];
 in
 {
   imports =
     [
       # Home Manager
       inputs.home-manager.nixosModules.home-manager
+      # NixOS styling
+      inputs.stylix.nixosModules.stylix
+      # auto-cpufreq
+      inputs.auto-cpufreq.nixosModules.default
 
       # import configuration modules
       outputs.nixosModules.default
@@ -25,28 +29,33 @@ in
       # import common modules
       ../common/nix
       ../common/system/boot
-      ../common/system/boot/sddm
       ../common/desktop
+      ../common/desktop/kde
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-    ];
+    ] ++ hardwareSetup;
 
-  # Select internationalisation properties.
+  networking.hostName = "nymphaea";
   # using this because it closer to russian
   i18n.defaultLocale = "en_DK.UTF-8";
-  networking.hostName = "nymphaea";
   time.timeZone = "Asia/Novosibirsk";
 
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" "commit=120" ];
+  # system theming
+  stylix = {
+    polarity = "light";
+    image = pkgs.fetchurl {
+      url = "https://i.imgur.com/tqLFc8y.jpeg";
+      hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
+    };
+  };
+
+  fileSystems."/".options = [ "noatime" "nodiratime" "discard" "commit=240" ];
 
   zramSwap = enabled' {
     priority = 100;
     memoryPercent = 80;
   };
-
-  # early boot gpu module
-  boot.initrd.kernelModules = [ "i915" ];
 
   programs.zsh = enabled;
   users.users.danknil = {
@@ -68,26 +77,15 @@ in
     backend = "iwd";
     powersave = true;
   };
-  hardware = {
-    bluetooth = enabled' {
-      powerOnBoot = true;
-      input.General.ClassicBondedOnly = false;
-    };
+  hardware.bluetooth = enabled' {
+    powerOnBoot = true;
+    input.General.ClassicBondedOnly = false;
   };
-
 
   environment = {
     systemPackages = with pkgs; [
       tpm2-tss
       neovim
-
-      gpu-screen-recorder # for replays
-      
-      # minecraft for life :3
-      (pkgs.prismlauncher.override {
-        jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
-        withWaylandGLFW = true;
-      })
     ];
 
     # set EDITOR to neovim
@@ -95,15 +93,20 @@ in
   };
 
   programs.gamemode = enabled;
+
+  # hardware setup
+  hardware = {
+    opengl = enabled;
+    intelgpu.driver =
+      if lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.8"
+      then "xe"
+      else "i915";
+  };
   chaotic = {
     mesa-git = enabled' {
-      extraPackages = [ pkgs.mesa_git.opencl ];
+      extraPackages = config.hardware.opengl.extraPackages;
+      extraPackages32 = config.hardware.opengl.extraPackages32;
     };
-  };
-
-  # add vdpau to env
-  environment.variables = {
-    VDPAU_DRIVER = "va_gl";
   };
 
   # power management setup
@@ -125,7 +128,7 @@ in
       battery = {
         governor = "schedutil";
         turbo = "off";
-        scaling_max_freq = 1500000;
+        scaling_max_freq = 1300000;
       };
     };
   };
