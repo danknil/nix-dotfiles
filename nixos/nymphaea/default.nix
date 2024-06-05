@@ -48,6 +48,7 @@ in
       url = "https://i.imgur.com/tqLFc8y.jpeg";
       hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
     };
+
   };
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "commit=240" ];
@@ -66,6 +67,7 @@ in
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
+    backupFileExtension = "backup";
     extraSpecialArgs = { inherit lib inputs outputs; };
     users = {
       danknil = ../../home-manager/nymphaea/danknil.nix;
@@ -96,7 +98,6 @@ in
 
   # hardware setup
   hardware = {
-    opengl = enabled;
     intelgpu.driver =
       if lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.8"
       then "xe"
@@ -104,8 +105,16 @@ in
   };
   chaotic = {
     mesa-git = enabled' {
-      extraPackages = config.hardware.opengl.extraPackages;
-      extraPackages32 = config.hardware.opengl.extraPackages32;
+      extraPackages = with pkgs; [
+        intel-vaapi-driver
+        libvdpau-va-gl
+        intel-media-driver
+      ];
+      extraPackages32 = with pkgs; [
+        intel-vaapi-driver
+        libvdpau-va-gl
+        intel-media-driver
+      ];
     };
   };
 

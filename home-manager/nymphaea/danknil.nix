@@ -4,25 +4,28 @@
 }:
 let
   inherit (lib) enabled enabled';
-  # getApp = name: ../common/apps/${name};
-  # appList = [
-  #   (getApp "alacritty")
-  #   (getApp "gimp")
-  #   (getApp "nomacs")
-  #   (getApp "mpv")
-  # ];
+  getApp = name: ../common/apps/${name};
+  appList = [
+    (getApp "alacritty")
+    (getApp "gimp")
+    (getApp "nomacs")
+    (getApp "mpv")
+  ];
 in
 {
   imports = [
-    # ../common/xdg
-    # ../common/shell/zsh
-  ]; /* ++ appList; */
+    ../common/xdg
+    ../common/shell/zsh
+  ] ++ appList;
+
+  home.username = "danknil";
+  home.homeDirectory = "/home/danknil";
 
   stylix = {
     cursor = {
-      package = pkgs.vanilla-dmz;
-      name = "Vanilla-DMZ";
-      size = 32;
+      package = pkgs.simp1e-cursors;
+      name = "Simp1e-Rose-Pine-Dawn";
+      size = 24;
     };
   };
 
@@ -33,9 +36,14 @@ in
   home.sessionVariables = {
     TERM = "alacritty";
     TERMINAL = "alacritty";
+    NIXOS_OZONE_WL = "1";
   };
 
   home.packages = with pkgs; [
+    # wayland support
+    qt6.qtwayland
+    libsForQt5.qt5.qtwayland
+
     neovide
 
     gpu-screen-recorder # for replays
@@ -52,17 +60,17 @@ in
     })
 
     # fonts
-    # noto-fonts
-    # noto-fonts-cjk
-    # noto-fonts-extra
-    # (nerdfonts.override {
-    #   fonts = [
-    #     "SourceCodePro"
-    #     "ZedMono"
-    #     "IBMPlexMono"
-    #     "Mononoki"
-    #   ];
-    # })
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-extra
+    (nerdfonts.override {
+      fonts = [
+        "SourceCodePro"
+        "ZedMono"
+        "IBMPlexMono"
+        "Mononoki"
+      ];
+    })
   ];
 
   programs = {

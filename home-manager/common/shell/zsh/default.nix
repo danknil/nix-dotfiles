@@ -26,6 +26,10 @@ in
     rar
     lha
     p7zip
+
+    # other
+    nh
+    killall
   ];
 
   programs = {

@@ -1,5 +1,6 @@
 { lib
 , config
+, pkgs
 , inputs
 , outputs
 , ...
@@ -25,6 +26,7 @@ in
   };
 
   nix = {
+    package = pkgs.nixVersions.nix_2_21;
     gc = {
       automatic = true;
       dates = "weekly";
