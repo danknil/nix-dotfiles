@@ -1,9 +1,10 @@
-{ lib
-, pkgs
-, config
-, ...
-}:
-let cfg = config.apps.wezterm;
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: let
+  cfg = config.apps.wezterm;
 in {
   options.apps.wezterm = with lib; {
     enable = mkEnableOption "Enable wezterm terminal emulator";

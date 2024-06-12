@@ -1,16 +1,16 @@
-{ lib
-, stdenv
-, callPackage
-, fetchFromGitHub
-, cmake
-, pkg-config
-, kdePackages
-, libexif
-, menu-cache
-, gitUpdater
-, ...
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  kdePackages,
+  libexif,
+  menu-cache,
+  gitUpdater,
+  ...
 }:
-
 stdenv.mkDerivation rec {
   pname = "pcmanfm-qt";
   version = "2.0.0";
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    (callPackage ../lxqt-build-tools { })
+    (callPackage ../lxqt-build-tools {})
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -33,14 +33,14 @@ stdenv.mkDerivation rec {
   buildInputs = [
     kdePackages.layer-shell-qt
     libexif
-    (callPackage ../lxqt-menu-data { })
-    (callPackage ../libfm-qt { })
+    (callPackage ../lxqt-menu-data {})
+    (callPackage ../libfm-qt {})
     kdePackages.qtbase
     kdePackages.qtimageformats # add-on module to support more image file formats
     menu-cache
   ];
 
-  passthru.updateScript = gitUpdater { };
+  passthru.updateScript = gitUpdater {};
 
   postPatch = ''
     substituteInPlace config/pcmanfm-qt/lxqt/settings.conf.in --replace-fail @LXQT_SHARE_DIR@ /run/current-system/sw/share/lxqt

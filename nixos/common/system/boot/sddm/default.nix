@@ -1,14 +1,13 @@
-{ lib
-, pkgs
-, ...
-}:
-let
-  inherit (lib) enabled' enabled;
-in
 {
-  imports = [ ../splash ];
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) enabled' enabled;
+in {
+  imports = [../splash];
 
-  environment.systemPackages = [ pkgs.elegant-sddm ];
+  environment.systemPackages = [pkgs.elegant-sddm];
 
   services.displayManager.sddm = enabled' {
     # package = (pkgs.kdePackages.sddm.override {
@@ -29,7 +28,7 @@ in
 
     serviceConfig = {
       ExecStartPre = "-/usr/bin/plymouth deactivate";
-      ExecStartPost = [ "-/usr/bin/sleep 30" "-/usr/bin/plymouth quit --retain-splash" ];
+      ExecStartPost = ["-/usr/bin/sleep 30" "-/usr/bin/plymouth quit --retain-splash"];
     };
   };
 }

@@ -1,37 +1,39 @@
 # danknil's main pc config
-{ lib
-, pkgs
-, inputs
-, outputs
-, ...
-}:
-let
+{
+  lib,
+  pkgs,
+  inputs,
+  outputs,
+  ...
+}: let
   inherit (lib) enabled enabled';
   hardwareSetup = with inputs.nixos-hardware.nixosModules; [
     common-pc-ssd
-    common-cpu-intel
+    common-cpu-amd
+    common-gpu-amd
   ];
-in
-{
-  imports =  [
-    # Home Manager
-    inputs.home-manager.nixosModules.home-manager
-    # NixOS styling
-    inputs.stylix.nixosModules.stylix
+in {
+  imports =
+    [
+      # Home Manager
+      inputs.home-manager.nixosModules.home-manager
+      # NixOS styling
+      inputs.stylix.nixosModules.stylix
 
-    # import configuration modules
-    outputs.nixosModules.default 
+      # import configuration modules
+      outputs.nixosModules.default
 
-    # import common modules
-    ../common/nix
-    ../common/system/boot
-    ../common/system/boot/sddm
-    ../common/desktop
-    ../common/desktop/gaming
+      # import common modules
+      ../common/nix
+      ../common/system/boot
+      ../common/desktop
+      ../common/desktop/kde
+      ../common/desktop/gaming
 
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ hardwareSetup;
 
   networking.hostName = "dianthus";
   time.timeZone = "Asia/Novosibirsk";
@@ -40,25 +42,21 @@ in
   stylix = {
     polarity = "light";
     image = pkgs.fetchurl {
-      url = "https://i.imgur.com/tqLFc8y.jpeg";
-      hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
+      url = "https://w.wallhaven.cc/full/o5/wallhaven-o5wx6p.png";
+      hash = "sha256-CnAwoDY+MS6n/byrEPXVaNKh9S40FfaaM4q2YdK/G60=";
     };
   };
 
-  fileSystems."/".options = [ "defaults" "noatime" "discard" "commit=60" ];
+  fileSystems."/".options = ["defaults" "noatime" "discard" "commit=60"];
 
   zramSwap = enabled' {
     priority = 100;
     memoryPercent = 50;
   };
 
-  # gpu early init
-  boot.initrd.kernelModules = [ "amdgpu" ];
-
-  programs.zsh = enabled;
   users.users.danknil = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "corectrl" ];
+    extraGroups = ["wheel" "networkmanager" "corectrl"];
     shell = pkgs.zsh;
   };
 
@@ -74,10 +72,9 @@ in
     corectrl = enabled' {
       gpuOverclock = enabled;
     };
-    hyprland = enabled' {
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    };
-
+    gamemode = enabled;
+    direnv = enabled;
+    zsh = enabled;
   };
 
   hardware = {
@@ -91,16 +88,6 @@ in
     # default packages
     systemPackages = with pkgs; [
       neovim
-
-      gpu-screen-recorder # for replays
-      custom.mons # modmanager for celeste
-      r2modman # modmanager for unity games
-
-      # minecraft for life :3
-      (pkgs.prismlauncher.override {
-        jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
-        withWaylandGLFW = true;
-      })
     ];
 
     # set EDITOR to neovim
@@ -109,7 +96,8 @@ in
 
   chaotic = {
     mesa-git = enabled' {
-      extraPackages = [ pkgs.mesa_git.opencl ];
+      extraPackages = [pkgs.mesa_git.opencl];
+      extraPackages32 = [pkgs.mesa_git.opencl];
     };
   };
 

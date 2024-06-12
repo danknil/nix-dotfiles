@@ -1,8 +1,8 @@
-{ lib
-, pkgs
-, ...
-}:
-let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) enabled enabled';
   getApp = name: ../common/apps/${name};
   appList = [
@@ -11,12 +11,13 @@ let
     (getApp "nomacs")
     (getApp "mpv")
   ];
-in
-{
-  imports = [
-    ../common/xdg
-    ../common/shell/zsh
-  ] ++ appList;
+in {
+  imports =
+    [
+      ../common/xdg
+      ../common/shell/zsh
+    ]
+    ++ appList;
 
   home.username = "danknil";
   home.homeDirectory = "/home/danknil";
@@ -40,6 +41,10 @@ in
   };
 
   home.packages = with pkgs; [
+    # development
+    nil
+    alejandra
+    devenv
     # wayland support
     qt6.qtwayland
     libsForQt5.qt5.qtwayland
@@ -55,7 +60,7 @@ in
 
     # minecraft for life :3
     (pkgs.prismlauncher.override {
-      jdks = [ jdk8 temurin-bin-11 temurin-bin-17 temurin-bin ];
+      jdks = [jdk8 temurin-bin-11 temurin-bin-17 temurin-bin];
       withWaylandGLFW = true;
     })
 

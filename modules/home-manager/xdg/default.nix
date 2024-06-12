@@ -1,10 +1,6 @@
-{ config
-, ...
-}:
-let
+{config, ...}: let
   hDir = dir: "${config.home.homeDirectory}/${dir}";
-in
-{
+in {
   config = {
     xdg = {
       enable = true;

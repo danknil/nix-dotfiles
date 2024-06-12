@@ -1,16 +1,16 @@
-{ lib
-, stdenv
-, callPackage
-, kdePackages
-, fetchFromGitHub
-, cmake
-, pkg-config
-, json-glib
-, libexif
-, menu-cache
-, gitUpdater
+{
+  lib,
+  stdenv,
+  callPackage,
+  kdePackages,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  json-glib,
+  libexif,
+  menu-cache,
+  gitUpdater,
 }:
-
 stdenv.mkDerivation rec {
   pname = "lxqt-archiver";
   version = "1.0.0";
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    (callPackage ../lxqt-build-tools { })
+    (callPackage ../lxqt-build-tools {})
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -33,14 +33,14 @@ stdenv.mkDerivation rec {
   buildInputs = [
     json-glib
     libexif
-    (callPackage ../libfm-qt { })
+    (callPackage ../libfm-qt {})
     menu-cache
     kdePackages.qtbase
   ];
 
-  hardeningDisable = [ "format" ];
+  hardeningDisable = ["format"];
 
-  passthru.updateScript = gitUpdater { };
+  passthru.updateScript = gitUpdater {};
 
   meta = with lib; {
     homepage = "https://github.com/lxqt/lxqt-archiver/";
@@ -48,6 +48,6 @@ stdenv.mkDerivation rec {
     mainProgram = "lxqt-archiver";
     license = licenses.gpl2Plus;
     platforms = with platforms; unix;
-    maintainers = with maintainers; [ jchw ] ++ teams.lxqt.members;
+    maintainers = with maintainers; [jchw] ++ teams.lxqt.members;
   };
 }

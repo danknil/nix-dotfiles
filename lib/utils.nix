@@ -1,12 +1,13 @@
-{ all
-, isList
-, isAttrs
-, unique
-, zipAttrsWith
-, foldr
-, concatLists
-, last
-, ...
+{
+  all,
+  isList,
+  isAttrs,
+  unique,
+  zipAttrsWith,
+  foldr,
+  concatLists,
+  last,
+  ...
 }: rec {
   toRGB = color: {
     R = builtins.substring 0 2 color;
@@ -14,14 +15,15 @@
     B = builtins.substring 4 2 color;
   };
 
-  valueForEach = names: value: foldr
-    (name: acc: acc // { "${name}" = value; })
-    { }
+  valueForEach = names: value:
+    foldr
+    (name: acc: acc // {"${name}" = value;})
+    {}
     (unique names);
 
-  recursiveMerge =
-    zipAttrsWith (n: values:
-      # if list we merge
+  recursiveMerge = zipAttrsWith (
+    n: values:
+    # if list we merge
       if all isList values
       then unique (concatLists values)
       # if attrs we recursing
@@ -29,5 +31,5 @@
       then recursiveMerge values
       # else return last
       else last values
-    );
+  );
 }

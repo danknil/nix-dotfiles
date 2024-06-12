@@ -1,18 +1,17 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.apps.vesktop;
-in
-{
+in {
   options.apps.vesktop = {
     enable = mkEnableOption "Vesktop";
   };
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.vesktop ];
+    home.packages = [pkgs.vesktop];
   };
 }

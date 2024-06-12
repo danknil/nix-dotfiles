@@ -1,13 +1,13 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, callPackage
-, kdePackages
-, gitUpdater
-, ...
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  callPackage,
+  kdePackages,
+  gitUpdater,
+  ...
 }:
-
 stdenv.mkDerivation rec {
   pname = "lxqt-menu-data";
   version = "2.0.0";
@@ -21,12 +21,12 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     cmake
-    (callPackage ../lxqt-build-tools { })
+    (callPackage ../lxqt-build-tools {})
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
 
-  passthru.updateScript = gitUpdater { };
+  passthru.updateScript = gitUpdater {};
 
   meta = with lib; {
     homepage = "https://github.com/lxqt/lxqt-menu-data";

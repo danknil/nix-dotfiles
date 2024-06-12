@@ -1,9 +1,9 @@
-{ pkgs
-, lib
-, ...
-}:
 {
-  home.packages = [ pkgs.nomacs ];
+  pkgs,
+  lib,
+  ...
+}: {
+  home.packages = [pkgs.nomacs];
   # xdg.mimeApps.defaultApplications = lib.valueForEach [
   #   "image/avif"
   #   "image/bmp"

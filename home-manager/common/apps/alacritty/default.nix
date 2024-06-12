@@ -4,7 +4,10 @@ _: {
     settings = {
       live_config_reload = false;
       window = {
-        padding = { x = 20; y = 20; };
+        padding = {
+          x = 20;
+          y = 20;
+        };
         dynamic_title = false;
         dynamic_padding = true;
       };

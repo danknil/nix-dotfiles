@@ -1,8 +1,9 @@
-{ pkgs
-, lib
-, ...
+{
+  pkgs,
+  lib,
+  ...
 }: {
-  home.packages = [ pkgs.custom.gimp-devel ];
+  home.packages = [pkgs.custom.gimp-devel];
 
   # xdg.mimeApps.defaultApplications = lib.valueForEach [
   #   "image/g3fax"

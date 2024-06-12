@@ -1,23 +1,24 @@
-{ lib
-, callPackage
-, stdenv
-, kdePackages
-, meson
-, ninja
-, pixman
-, pkg-config
-, json_c
-, fetchFromGitLab
-, mpv-unwrapped
-, wlroots
-, wayland
-, ...
+{
+  lib,
+  callPackage,
+  stdenv,
+  kdePackages,
+  meson,
+  ninja,
+  pixman,
+  pkg-config,
+  json_c,
+  fetchFromGitLab,
+  mpv-unwrapped,
+  wlroots,
+  wayland,
+  ...
 }:
 stdenv.mkDerivation {
   pname = "qtgreet";
   version = "dev-2024-03-05";
 
-  outputs = [ "bin" "out" ];
+  outputs = ["bin" "out"];
 
   src = fetchFromGitLab {
     owner = "marcusbritanicus";
@@ -32,7 +33,7 @@ stdenv.mkDerivation {
   # ];
 
   postPatch = ''
-    
+
   '';
 
   nativeBuildInputs = [
@@ -45,10 +46,10 @@ stdenv.mkDerivation {
   buildInputs = [
     kdePackages.qtbase
     kdePackages.wayqt
-    (callPackage ../dfl-login1 { })
-    (callPackage ../dfl-utils { })
-    (callPackage ../dfl-applications { })
-    (callPackage ../dfl-ipc { })
+    (callPackage ../dfl-login1 {})
+    (callPackage ../dfl-utils {})
+    (callPackage ../dfl-applications {})
+    (callPackage ../dfl-ipc {})
     json_c
     mpv-unwrapped
     wlroots
@@ -68,6 +69,6 @@ stdenv.mkDerivation {
     license = licenses.gpl3;
     platforms = platforms.linux;
     homepage = "https://gitlab.com/marcusbritanicus/QtGreet";
-    maintainers = with maintainers; [ danknil ];
+    maintainers = with maintainers; [danknil];
   };
 }

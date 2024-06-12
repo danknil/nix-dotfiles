@@ -1,11 +1,10 @@
-{ lib
-, pkgs
-, ...
-}:
-let
-  inherit (lib) disabled enabled enabled' mkDefault;
-in
 {
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) disabled enabled enabled' mkDefault;
+in {
   environment.systemPackages = with pkgs; [
     # all nixos systems should have this
     git

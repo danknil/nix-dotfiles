@@ -1,13 +1,13 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, meson
-, pkg-config
-, ninja
-, systemd
-, kdePackages
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  meson,
+  pkg-config,
+  ninja,
+  systemd,
+  kdePackages,
 }:
-
 stdenv.mkDerivation rec {
   pname = "dfl-login1";
   version = "dev-2024-18-01";
@@ -45,12 +45,12 @@ stdenv.mkDerivation rec {
 
   dontWrapQtApps = true;
 
-  outputs = [ "out" "dev" ];
+  outputs = ["out" "dev"];
 
   meta = {
     homepage = "https://gitlab.com/desktop-frameworks/login1";
     description = "DFL Login1 class implements a part of the systemd logind dbus protocol.";
-    maintainers = with lib.maintainers; [ danknil ];
+    maintainers = with lib.maintainers; [danknil];
     platforms = lib.platforms.linux;
     license = lib.licenses.mit;
   };

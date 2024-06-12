@@ -1,9 +1,10 @@
-{ lib
-, pkgs
-, config
-, ...
-}:
-let cfg = config.profiles.desktop.rofi;
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: let
+  cfg = config.profiles.desktop.rofi;
 in {
   options.profiles.desktop.rofi = with lib; {
     enable = mkEnableOption "Enable rofi";
@@ -16,7 +17,7 @@ in {
       enable = true;
       package = pkgs.rofi-wayland;
       # TODO: add config
-      extraConfig = { };
+      extraConfig = {};
     };
   };
 }

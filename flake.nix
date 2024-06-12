@@ -42,54 +42,53 @@
     systems.url = "github:nix-systems/default";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , systems
-    , ...
-    }@inputs:
-    let
-      inherit (self) outputs;
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    systems,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
 
-      forAllSystems = nixpkgs.lib.genAttrs (import systems);
+    forAllSystems = nixpkgs.lib.genAttrs (import systems);
 
-      lib = nixpkgs.lib.extend
-        (final: prev: (import ./lib final) // home-manager.lib);
-    in
-    {
-      # Your custom packages
-      # Accessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    lib =
+      nixpkgs.lib.extend
+      (final: prev: (import ./lib final) // home-manager.lib);
+  in {
+    # Your custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
 
-      # Formatter for your nix files, available through 'nix fmt'
-      # Other options beside 'alejandra' include 'nixpkgs-fmt'
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    # Formatter for your nix files, available through 'nix fmt'
+    # Other options beside 'alejandra' include 'nixpkgs-fmt'
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-      # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit lib inputs; };
+    # Your custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit lib inputs;};
 
-      # Reusable nixos modules you might want to export
-      # These are usually stuff you would upstream into nixpkgs
-      nixosModules = import ./modules/nixos;
+    # Reusable nixos modules you might want to export
+    # These are usually stuff you would upstream into nixpkgs
+    nixosModules = import ./modules/nixos;
 
-      # Reusable home-manager modules you might want to export
-      # These are usually stuff you would upstream into home-manager
-      homeManagerModules = import ./modules/home-manager;
+    # Reusable home-manager modules you might want to export
+    # These are usually stuff you would upstream into home-manager
+    homeManagerModules = import ./modules/home-manager;
 
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations = {
-        # danknil's notebook
-        nymphaea = lib.nixosSystem {
-          specialArgs = { inherit lib inputs outputs; };
-          modules = [ ./nixos/nymphaea ];
-        };
-        # danknil's pc
-        dianthus = lib.nixosSystem {
-          specialArgs = { inherit lib inputs outputs; };
-          modules = [ ./nixos/dianthus ];
-        };
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild --flake .#your-hostname'
+    nixosConfigurations = {
+      # danknil's notebook
+      nymphaea = lib.nixosSystem {
+        specialArgs = {inherit lib inputs outputs;};
+        modules = [./nixos/nymphaea];
+      };
+      # danknil's pc
+      dianthus = lib.nixosSystem {
+        specialArgs = {inherit lib inputs outputs;};
+        modules = [./nixos/dianthus];
       };
     };
+  };
 }

@@ -1,11 +1,10 @@
-{ pkgs
-, lib
-, ...
-}: 
-let
-  inherit (lib) enabled;
-in 
 {
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (lib) enabled;
+in {
   imports = [
     # use sddm as default
     ../../system/boot/sddm

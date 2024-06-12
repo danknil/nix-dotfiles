@@ -1,17 +1,17 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, cmake
-, pkg-config
-, kdePackages
-, pcre
-, glib
-, perl
-, gitUpdater
-, version ? "2.0.0"
-, ...
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  kdePackages,
+  pcre,
+  glib,
+  perl,
+  gitUpdater,
+  version ? "2.0.0",
+  ...
 }:
-
 stdenv.mkDerivation rec {
   pname = "lxqt-build-tools";
   inherit version;
@@ -20,10 +20,12 @@ stdenv.mkDerivation rec {
     owner = "lxqt";
     repo = pname;
     rev = version;
-    hash = {
-      "0.13.0" = "sha256-4/hVlEdqqqd6CNitCRkIzsS1R941vPJdirIklp4acXA=";
-      "2.0.0" = "sha256-ZFvnIumP03Mp+4OHPe1yMVsSYhMmYUY1idJGCAy5IhA=";
-    }."${version}";
+    hash =
+      {
+        "0.13.0" = "sha256-4/hVlEdqqqd6CNitCRkIzsS1R941vPJdirIklp4acXA=";
+        "2.0.0" = "sha256-ZFvnIumP03Mp+4OHPe1yMVsSYhMmYUY1idJGCAy5IhA=";
+      }
+      ."${version}";
   };
 
   postPatch = ''
@@ -58,7 +60,7 @@ stdenv.mkDerivation rec {
     cp ${./LXQtConfigVars.cmake} $out/share/cmake/lxqt${lib.optionalString (lib.versionAtLeast version "2.0.0") "2"}-build-tools/modules/LXQtConfigVars.cmake
   '';
 
-  passthru.updateScript = gitUpdater { };
+  passthru.updateScript = gitUpdater {};
 
   meta = with lib; {
     homepage = "https://github.com/lxqt/lxqt-build-tools";

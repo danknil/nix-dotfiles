@@ -1,13 +1,13 @@
-{ stdenv
-, lib
-, fetchFromGitLab
-, callPackage
-, meson
-, pkg-config
-, ninja
-, kdePackages
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  callPackage,
+  meson,
+  pkg-config,
+  ninja,
+  kdePackages,
 }:
-
 stdenv.mkDerivation rec {
   pname = "dfl-applications";
   version = "dev-2024-08-01";
@@ -45,12 +45,12 @@ stdenv.mkDerivation rec {
 
   dontWrapQtApps = true;
 
-  outputs = [ "out" "dev" ];
+  outputs = ["out" "dev"];
 
   meta = {
     homepage = "https://gitlab.com/desktop-frameworks/applications";
     description = "This library provides a thin wrapper around QApplication, QGuiApplication and QCoreApplication, to provide single-instance functionality.";
-    maintainers = with lib.maintainers; [ danknil ];
+    maintainers = with lib.maintainers; [danknil];
     platforms = lib.platforms.linux;
     license = lib.licenses.mit;
   };

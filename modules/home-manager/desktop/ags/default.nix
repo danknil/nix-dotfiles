@@ -1,20 +1,18 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.profiles.desktop.ags;
-  colors =
-    with config.colorscheme.palette;
+  colors = with config.colorscheme.palette;
     builtins.concatStringsSep "\n"
-      (attrsets.mapAttrsToList
-        (name: value: "@define-color ${name} #${value};")
-        config.colorscheme.palette);
-in
-{
+    (attrsets.mapAttrsToList
+      (name: value: "@define-color ${name} #${value};")
+      config.colorscheme.palette);
+in {
   options.profiles.desktop.ags = with lib; {
     enable = mkEnableOption "Enable ags with notifications and bar";
   };
@@ -47,7 +45,7 @@ in
       ];
     };
     profiles.desktop.hyprland.extraConfig = {
-      exec-once = [ "ags" ];
+      exec-once = ["ags"];
     };
   };
 }

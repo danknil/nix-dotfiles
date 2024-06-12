@@ -1,12 +1,11 @@
-{ lib
-, inputs
-, pkgs
-, ...
-}:
-let
-  inherit (lib) enabled' disabled;
-in
 {
+  lib,
+  inputs,
+  pkgs,
+  ...
+}: let
+  inherit (lib) enabled' disabled;
+in {
   boot = {
     kernelPackages = pkgs.linuxPackages_cachyos;
 

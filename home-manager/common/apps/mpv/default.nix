@@ -1,52 +1,52 @@
-{ pkgs
-, lib
-, ...
-}:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   programs.mpv = lib.enabled' {
     package =
       pkgs.wrapMpv
-        (pkgs.mpv-unwrapped.override {
-          waylandSupport = true;
-          x11Support = false;
-          cddaSupport = false;
-          vulkanSupport = true;
-          drmSupport = true;
-          archiveSupport = true;
-          bluraySupport = true;
-          bs2bSupport = false;
-          cacaSupport = false;
-          cmsSupport = false;
-          dvdnavSupport = false;
-          dvbinSupport = false;
-          jackaudioSupport = true;
-          javascriptSupport = true;
-          libpngSupport = false;
-          openalSupport = false;
-          pulseSupport = false;
-          pipewireSupport = true;
-          rubberbandSupport = false;
-          screenSaverSupport = false;
-          sdl2Support = true;
-          sixelSupport = false;
-          speexSupport = false;
-          swiftSupport = false;
-          theoraSupport = false;
-          vaapiSupport = true;
-          vapoursynthSupport = false;
-          vdpauSupport = true;
-          xineramaSupport = false;
-          xvSupport = false;
-          zimgSupport = false;
-        })
-        {
-          scripts = with pkgs.mpvScripts; [
-            uosc
-            thumbfast
-            sponsorblock-minimal
-            mpris
-          ];
-        };
+      (pkgs.mpv-unwrapped.override {
+        waylandSupport = true;
+        x11Support = false;
+        cddaSupport = false;
+        vulkanSupport = true;
+        drmSupport = true;
+        archiveSupport = true;
+        bluraySupport = true;
+        bs2bSupport = false;
+        cacaSupport = false;
+        cmsSupport = false;
+        dvdnavSupport = false;
+        dvbinSupport = false;
+        jackaudioSupport = true;
+        javascriptSupport = true;
+        libpngSupport = false;
+        openalSupport = false;
+        pulseSupport = false;
+        pipewireSupport = true;
+        rubberbandSupport = false;
+        screenSaverSupport = false;
+        sdl2Support = true;
+        sixelSupport = false;
+        speexSupport = false;
+        swiftSupport = false;
+        theoraSupport = false;
+        vaapiSupport = true;
+        vapoursynthSupport = false;
+        vdpauSupport = true;
+        xineramaSupport = false;
+        xvSupport = false;
+        zimgSupport = false;
+      })
+      {
+        scripts = with pkgs.mpvScripts; [
+          uosc
+          thumbfast
+          sponsorblock-minimal
+          mpris
+        ];
+      };
   };
   xdg.mimeApps.defaultApplications = lib.valueForEach [
     "application/ogg"

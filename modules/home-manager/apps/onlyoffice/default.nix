@@ -1,19 +1,18 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.apps.onlyoffice;
-in
-{
+in {
   options.apps.onlyoffice = {
     enable = mkEnableOption "onlyoffice";
   };
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.onlyoffice-bin ];
+    home.packages = [pkgs.onlyoffice-bin];
 
     xdg.mimeApps.defaultApplications = valueForEach [
       "application/vnd.oasis.opendocument.text"

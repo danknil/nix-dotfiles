@@ -1,7 +1,7 @@
 rec {
   services = import ./services;
   default = _: {
-    imports = [ 
+    imports = [
       services
     ];
   };

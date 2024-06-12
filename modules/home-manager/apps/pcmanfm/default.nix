@@ -1,14 +1,13 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.apps.pcmanfm;
-in
-{
+in {
   options.apps.pcmanfm = {
     enable = mkEnableOption "pcmanfm";
   };
@@ -32,7 +31,7 @@ in
     ];
 
     xdg.mimeApps.defaultApplications = {
-     "inode/directory" = "pcmanfm-qt.desktop";
+      "inode/directory" = "pcmanfm-qt.desktop";
     };
   };
 }

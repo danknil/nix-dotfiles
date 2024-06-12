@@ -1,17 +1,16 @@
-{ lib
-, config
-, pkgs
-, inputs
-, outputs
-, ...
-}:
-let
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  outputs,
+  ...
+}: let
   inherit (lib) filterAttrs isType mapAttrs mapAttrsToList mkForce;
   inherit (outputs) overlays;
 
   flakeInputs = filterAttrs (_: isType "flake") inputs;
-in
-{
+in {
   imports = [
     inputs.chaotic.nixosModules.default
   ];
@@ -36,7 +35,7 @@ in
     optimise.automatic = true;
 
     # Opinionated: make flake registry and nix path match flake inputs
-    registry = mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+    registry = mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 
     extraOptions = ''
@@ -48,7 +47,7 @@ in
     settings = {
       accept-flake-config = true;
       nix-path = config.nix.nixPath;
-      allowed-users = [ "@wheel" ];
+      allowed-users = ["@wheel"];
       auto-optimise-store = true;
       use-xdg-base-directories = true;
       builders-use-substitutes = true;
@@ -66,11 +65,11 @@ in
       log-lines = 20;
       max-jobs = "auto";
       sandbox = true;
-      trusted-users = [ "root" "@wheel" ];
+      trusted-users = ["root" "@wheel"];
       use-cgroups = true;
       warn-dirty = false;
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
   };
   nixpkgs = {

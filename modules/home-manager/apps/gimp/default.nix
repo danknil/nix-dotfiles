@@ -1,19 +1,18 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.apps.gimp;
-in
-{
+in {
   options.apps.gimp = {
     enable = mkEnableOption "gimp";
   };
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.dnix.gimp-devel ];
+    home.packages = [pkgs.dnix.gimp-devel];
 
     xdg.mimeApps.defaultApplications = valueForEach [
       "image/g3fax"

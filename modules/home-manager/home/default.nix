@@ -1,13 +1,12 @@
-{ config
-, lib
-, ...
+{
+  config,
+  lib,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.profile.user;
-in
-{
+in {
   options.profile.user = with types; rec {
     email = mkOpt str "" "email to use associate with this user";
     hostName = mkOpt str (builtins.getEnv "USER") "username";

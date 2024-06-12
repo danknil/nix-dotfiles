@@ -1,87 +1,96 @@
-{ lib
-, pkgs
-, ...
-}:
-let
-  inherit (lib) enabled enabled' valueForEach;
-in 
 {
-  # profiles = {
-  #   desktop = {
-  #     # hyprland wm config
-  #     hyprland = enabled' {
-  #       extraConfig = {
-  #         monitor = [
-  #           "DP-1,preferred,0x0,1"
-  #           "HDMI-A-1,preferred,2560x-400,1,transform,3"
-  #         ];
-  #         workspace = [
-  #           "1,monitor:DP-1"
-  #           "2,monitor:HDMI-A-1"
-  #           "3,monitor:DP-1"
-  #           "4,monitor:DP-1"
-  #         ];
-  #         device = [
-  #           {
-  #             name = "kb-5.0-keyboard";
-  #             kb_layout = "us,ru";
-  #             kb_variant = "";
-  #             kb_model = "";
-  #             kb_options = "grp:caps_toggle";
-  #             kb_rules = "";
-  #           }
-  #         ];
-  #       };
-  #     };
-  #     # FIXME: broken atm
-  #     # hyprpaper = {
-  #     #   enable = true;
-  #     #   extraConfig = {
-  #     #     preloads = [ "~/Wallpapers/saber-dark.png" ];
-  #     #     wallpapers = [ "eDP-1,~/Wallpapers/saber-dark.png" ];
-  #     #   };
-  #     # };
-  #
-  #     # hypridle = enabled;
-  #     clipman = enabled;
-  #     hyprshot = enabled;
-  #     ags = enabled;
-  #     anyrun = enabled;
-  #     rofi = enabled;
-  #
-  #     # wbg = enabled' {
-  #     #   wallpaperImg = "~/Wallpapers/saber-dark.png";
-  #     # };
-  #   };
-  #   shell = enabled;
-  # };
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) enabled enabled' valueForEach;
+  getApp = name: ../common/apps/${name};
+  appList = [
+    (getApp "alacritty")
+    (getApp "gimp")
+    (getApp "nomacs")
+    (getApp "mpv")
+  ];
+in {
+  imports =
+    [
+      ../common/xdg
+      ../common/shell/zsh
+    ]
+    ++ appList;
+  home = {
+    username = "danknil";
+    homeDirectory = "/home/danknil";
 
-  # apps = valueForEach [
-  #   "alacritty" # terminal
-  #   "vivaldi" # browser
-  #   "mpv" # video player
-  #   "neovim" # editor
-  #   "nomacs" # image viewer
-  #   "vesktop" # discord client
-  #   "telegram" # telegram client
-  #   "onlyoffice" # office suit
-  #   "pcmanfm" # file manager
-  #   "gimp"
-  # ]
-  #   { enable = true; };
-  #
-  # home.packages = with pkgs; [
-  #   obsidian # note taking
-  #   yt-dlp # to download from youtube 
-  #   dnix.pavucontrol-qt # control sound
-  # ];
-  #
-  # services = {
-  #   udiskie = enabled' {
-  #     tray = "never";
-  #   };
-  #   syncthing = enabled;
-  # };
-  #
-  home.stateVersion = "23.11";
+    sessionVariables = {
+      TERM = "alacritty";
+      TERMINAL = "alacritty";
+      NIXOS_OZONE_WL = "1";
+    };
+
+    packages = with pkgs; [
+      # lsp
+      nil
+      alejandra
+      statix
+      stylua
+      vale
+      prettierd
+      jdt-language-server
+      # for better coding support
+      devenv
+      # wayland support
+      qt6.qtwayland
+      libsForQt5.qt5.qtwayland
+
+      neovide # best neovim gui <3
+
+      gpu-screen-recorder # for replays
+
+      vivaldi
+      vesktop
+      telegram-desktop
+      wpsoffice
+
+      # minecraft for life :3
+      (pkgs.prismlauncher.override {
+        jdks = [jdk8 temurin-bin-11 temurin-bin-17 temurin-bin];
+        withWaylandGLFW = true;
+      })
+
+      # fonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-extra
+      (nerdfonts.override {
+        fonts = [
+          "SourceCodePro"
+          "ZedMono"
+          "IBMPlexMono"
+          "Mononoki"
+        ];
+      })
+    ];
+
+    stateVersion = "23.11";
+  };
+
+  stylix = {
+    cursor = {
+      package = pkgs.simp1e-cursors;
+      name = "Simp1e-Rose-Pine-Dawn";
+      size = 24;
+    };
+  };
+
+  programs = {
+    home-manager = enabled;
+    git = enabled' {
+      delta = enabled;
+      userEmail = "danknil@protonmail.com";
+      userName = "danknil";
+    };
+  };
+
+  fonts.fontconfig = enabled;
 }

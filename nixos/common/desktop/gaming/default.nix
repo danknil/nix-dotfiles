@@ -1,12 +1,11 @@
-{ lib
-, pkgs
-, outputs
-, ...
-}:
-let
-  inherit (lib) enabled enabled';
-in
 {
+  lib,
+  pkgs,
+  outputs,
+  ...
+}: let
+  inherit (lib) enabled enabled';
+in {
   imports = [
     outputs.nixosModules.default
   ];
@@ -15,8 +14,7 @@ in
   services.pipewire.lowLatency = enabled;
 
   environment.sessionVariables = {
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
-      "\${HOME}/.steam/root/compatibilitytools.d";
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
   };
 
   environment.systemPackages = with pkgs; [
@@ -33,13 +31,14 @@ in
     gamescope.package = pkgs.gamescope_git;
     steam = enabled' {
       package = pkgs.steam.override {
-        extraPkgs = p: with p; [
-          bluez
-          bluez-tools
-        ];
+        extraPkgs = p:
+          with p; [
+            bluez
+            bluez-tools
+          ];
       };
       gamescopeSession = enabled' {
-        args = [ "-O DP-1,*" ];
+        args = ["-O DP-1,*"];
       };
     };
   };

@@ -1,11 +1,11 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   rgbTheme = mapAttrs (name: attr: toRGB attr) config.colorscheme.palette;
   gtkCss = with config.colorscheme.palette; ''
     @define-color accent_color #${base0A};
@@ -97,14 +97,12 @@ let
     @define-color dark_4 #${base01};
     @define-color dark_5 #${base01};
   '';
-in
-{
+in {
   options.theming = {
     enable = mkEnableOption "QT/GTK theming with provided colorscheme";
   };
 
   config = mkIf config.theming.enable {
-
     home.packages = with pkgs; [
       qt5ct
       libsForQt5.qtstyleplugin-kvantum

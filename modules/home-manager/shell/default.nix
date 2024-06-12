@@ -1,15 +1,14 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
-with lib.dnix;
-let
-  cfg = config.profiles.shell;
-  zshEnabled' = add: enabled' { enableZshIntegration = true; } // add;
-  zshEnabled = zshEnabled' { };
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib.dnix; let
+  cfg = config.profiles.shell;
+  zshEnabled' = add: enabled' {enableZshIntegration = true;} // add;
+  zshEnabled = zshEnabled' {};
+in {
   options.profiles.shell = with lib; {
     # make different shell options and separate config for programs
     enable = mkEnableOption "Setup shell with zsh and etc";
@@ -53,16 +52,18 @@ in
           size = 10000;
         };
 
-        plugins = [{
-          name = "zsh-nix-shell";
-          file = "nix-shell.plugin.zsh";
-          src = pkgs.fetchFromGitHub {
-            owner = "chisui";
-            repo = "zsh-nix-shell";
-            rev = "v0.4.0";
-            sha256 = "037wz9fqmx0ngcwl9az55fgkipb745rymznxnssr3rx9irb6apzg";
-          };
-        }];
+        plugins = [
+          {
+            name = "zsh-nix-shell";
+            file = "nix-shell.plugin.zsh";
+            src = pkgs.fetchFromGitHub {
+              owner = "chisui";
+              repo = "zsh-nix-shell";
+              rev = "v0.4.0";
+              sha256 = "037wz9fqmx0ngcwl9az55fgkipb745rymznxnssr3rx9irb6apzg";
+            };
+          }
+        ];
       };
 
       # shell prompt
@@ -75,11 +76,6 @@ in
       eza = zshEnabled' {
         icons = true;
         git = true;
-      };
-
-      # autosetup development environment
-      direnv = zshEnabled' {
-        nix-direnv = enabled;
       };
     };
   };

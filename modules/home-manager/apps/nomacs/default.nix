@@ -1,19 +1,18 @@
-{ lib
-, pkgs
-, config
-, ...
+{
+  lib,
+  pkgs,
+  config,
+  ...
 }:
 with lib;
-with lib.dnix;
-let
+with lib.dnix; let
   cfg = config.apps.nomacs;
-in
-{
+in {
   options.apps.nomacs = {
     enable = mkEnableOption "Nomacs";
   };
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.nomacs ];
+    home.packages = [pkgs.nomacs];
     xdg.mimeApps.defaultApplications = valueForEach [
       "image/avif"
       "image/bmp"

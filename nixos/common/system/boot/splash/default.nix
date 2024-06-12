@@ -1,12 +1,10 @@
-{ lib
-, pkgs
-, ...
-}:
-let
-  inherit (lib) enabled';
-in
 {
-
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) enabled';
+in {
   boot.plymouth = enabled' {
     # themePackages = [
     #   (pkgs.adi1090x-plymouth-themes.override

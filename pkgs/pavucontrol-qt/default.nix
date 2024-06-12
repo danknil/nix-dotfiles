@@ -1,15 +1,15 @@
-{ lib
-, stdenv
-, callPackage
-, fetchFromGitHub
-, cmake
-, pkg-config
-, libpulseaudio
-, kdePackages
-, gitUpdater
-, ...
+{
+  lib,
+  stdenv,
+  callPackage,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  libpulseaudio,
+  kdePackages,
+  gitUpdater,
+  ...
 }:
-
 stdenv.mkDerivation rec {
   pname = "pavucontrol-qt";
   version = "2.0.0";
@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     cmake
     pkg-config
-    (callPackage ../lxqt-build-tools { })
+    (callPackage ../lxqt-build-tools {})
     kdePackages.qttools
     kdePackages.wrapQtAppsHook
   ];
@@ -34,7 +34,7 @@ stdenv.mkDerivation rec {
     libpulseaudio
   ];
 
-  passthru.updateScript = gitUpdater { };
+  passthru.updateScript = gitUpdater {};
 
   meta = with lib; {
     homepage = "https://github.com/lxqt/pavucontrol-qt";

@@ -1,37 +1,38 @@
-{ lib
-, python312Packages
-, fetchPypi
-, ...
+{
+  lib,
+  python312Packages,
+  fetchPypi,
+  ...
 }:
 with python312Packages;
-buildPythonPackage rec {
-  pname = "everest-mons";
-  version = "2.0.0";
+  buildPythonPackage rec {
+    pname = "everest-mons";
+    version = "2.0.0";
 
-  src = fetchPypi {
-    inherit version;
-    pname = "mons";
-    hash = "sha256-E1yBTwZ4T2C3sXoLGz0kAcvas0q8tO6Aaiz3SHrT4ZE=";
-  };
+    src = fetchPypi {
+      inherit version;
+      pname = "mons";
+      hash = "sha256-E1yBTwZ4T2C3sXoLGz0kAcvas0q8tO6Aaiz3SHrT4ZE=";
+    };
 
-  build-system = [ setuptools-scm ];
-  pyproject = true;
-  propagatedBuildInputs = [
-    dnfile
-    pefile
-    click
-    tqdm
-    xxhash
-    pyyaml
-    urllib3
-    platformdirs
-  ];
+    build-system = [setuptools-scm];
+    pyproject = true;
+    propagatedBuildInputs = [
+      dnfile
+      pefile
+      click
+      tqdm
+      xxhash
+      pyyaml
+      urllib3
+      platformdirs
+    ];
 
-  meta = with lib; {
-    homepage = "https://mons.coloursofnoise.ca/";
-    description = "A commandline Everest installer and mod manager for Celeste";
-    license = licenses.mit;
-    maintainers = with lib.maintainers; [ ulysseszhan ];
-    mainProgram = "mons";
-  };
-}
+    meta = with lib; {
+      homepage = "https://mons.coloursofnoise.ca/";
+      description = "A commandline Everest installer and mod manager for Celeste";
+      license = licenses.mit;
+      maintainers = with lib.maintainers; [ulysseszhan];
+      mainProgram = "mons";
+    };
+  }

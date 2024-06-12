@@ -1,17 +1,18 @@
-{ bash
-, gawk
-, git
-, gnugrep
-, fetchFromGitHub
-, lib
-, makeWrapper
-, stdenv
-, unixtools
-, unzip
-, wget
-, xdotool
-, xorg
-, yad
+{
+  bash,
+  gawk,
+  git,
+  gnugrep,
+  fetchFromGitHub,
+  lib,
+  makeWrapper,
+  stdenv,
+  unixtools,
+  unzip,
+  wget,
+  xdotool,
+  xorg,
+  yad,
 }:
 # add steamcompattool output so it can be used in programs.steam.extraCompatPackages
 stdenv.mkDerivation rec {
@@ -30,11 +31,11 @@ stdenv.mkDerivation rec {
     substituteInPlace steamtinkerlaunch --replace 'PROGCMD="''${0##*/}"' 'PROGCMD="steamtinkerlaunch"'
   '';
 
-  outputs = [ "out" "steamcompattool" ];
+  outputs = ["out" "steamcompattool"];
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [makeWrapper];
 
-  installFlags = [ "PREFIX=\${out}" ];
+  installFlags = ["PREFIX=\${out}"];
 
   postInstall = ''
     wrapProgram $out/bin/steamtinkerlaunch --prefix PATH : ${lib.makeBinPath [
@@ -60,7 +61,7 @@ stdenv.mkDerivation rec {
     mainProgram = "steamtinkerlaunch";
     homepage = "https://github.com/sonic2kk/steamtinkerlaunch";
     license = licenses.gpl3;
-    maintainers = with maintainers; [ urandom ];
+    maintainers = with maintainers; [urandom];
     platforms = lib.platforms.linux;
   };
 }
