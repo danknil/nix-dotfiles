@@ -41,9 +41,15 @@ in {
   };
 
   home.packages = with pkgs; [
-    # development
+    # lsp
     nil
     alejandra
+    statix
+    stylua
+    vale
+    prettierd
+    jdt-language-server
+    # for better coding support
     devenv
     # wayland support
     qt6.qtwayland

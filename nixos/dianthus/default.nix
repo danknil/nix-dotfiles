@@ -40,6 +40,7 @@ in {
   i18n.defaultLocale = "en_DK.UTF-8";
 
   stylix = {
+    enable = true;
     polarity = "light";
     image = pkgs.fetchurl {
       url = "https://w.wallhaven.cc/full/o5/wallhaven-o5wx6p.png";

@@ -43,6 +43,7 @@ in {
 
   # system theming
   stylix = {
+    enable = true;
     polarity = "light";
     image = pkgs.fetchurl {
       url = "https://i.imgur.com/tqLFc8y.jpeg";

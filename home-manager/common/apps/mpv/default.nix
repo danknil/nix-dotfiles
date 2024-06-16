@@ -4,9 +4,8 @@
   ...
 }: {
   programs.mpv = lib.enabled' {
-    package =
-      pkgs.wrapMpv
-      (pkgs.mpv-unwrapped.override {
+    package = pkgs.mpv-unwrapped.wrapper {
+      mpv = pkgs.mpv-unwrapped.override {
         waylandSupport = true;
         x11Support = false;
         cddaSupport = false;
@@ -38,15 +37,14 @@
         xineramaSupport = false;
         xvSupport = false;
         zimgSupport = false;
-      })
-      {
-        scripts = with pkgs.mpvScripts; [
-          uosc
-          thumbfast
-          sponsorblock-minimal
-          mpris
-        ];
       };
+      scripts = with pkgs.mpvScripts; [
+        uosc
+        thumbfast
+        sponsorblock-minimal
+        mpris
+      ];
+    };
   };
   xdg.mimeApps.defaultApplications = lib.valueForEach [
     "application/ogg"

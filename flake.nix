@@ -7,12 +7,12 @@
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
     # Hypr software, my beloved <3
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprpaper.url = "github:hyprwm/hyprpaper";
-    hypridle.url = "github:hyprwm/hypridle";
-    hyprpicker.url = "github:hyprwm/hyprpicker";
-    hyprlock.url = "github:hyprwm/hyprlock";
-    xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+    # hyprland.url = "github:hyprwm/Hyprland";
+    # hyprpaper.url = "github:hyprwm/hyprpaper";
+    # hypridle.url = "github:hyprwm/hypridle";
+    # hyprpicker.url = "github:hyprwm/hyprpicker";
+    # hyprlock.url = "github:hyprwm/hyprlock";
+    # xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
