@@ -7,7 +7,7 @@
   inherit (lib) enabled' disabled;
 in {
   boot = {
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    kernelPackages = pkgs.linuxPackages_latest_xen_dom0;
 
     # blacklist watchdog modules
     extraModprobeConfig = ''

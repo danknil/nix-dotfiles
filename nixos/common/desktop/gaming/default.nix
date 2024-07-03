@@ -22,7 +22,6 @@ in {
 
     vkbasalt
     mangohud
-    protontricks # for game fixes
     protonup # for installing proton
   ];
 
@@ -30,6 +29,7 @@ in {
     gamemode = enabled;
     gamescope.package = pkgs.gamescope_git;
     steam = enabled' {
+      protontricks.enable = true;
       package = pkgs.steam.override {
         extraPkgs = p:
           with p; [

@@ -26,6 +26,8 @@ in {
       TERM = "alacritty";
       TERMINAL = "alacritty";
       NIXOS_OZONE_WL = "1";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+          "\\\${HOME}/.steam/root/compatibilitytools.d";
     };
 
     packages = with pkgs; [
@@ -36,9 +38,13 @@ in {
       stylua
       vale
       prettierd
-      jdt-language-server
+      custom.jdt-language-server
+      rust-analyzer
+      custom.zed-editor-preview
       # for better coding support
       devenv
+      # java ide
+      jetbrains.idea-community-bin
       # wayland support
       qt6.qtwayland
       libsForQt5.qt5.qtwayland

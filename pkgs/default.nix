@@ -16,4 +16,9 @@ in
     "pavucontrol-qt"
     "pcmanfm-qt"
     "steamtinkerlaunch"
+    "jdt-language-server"
+    "tomcat7"
+    "zed-editor"
+    "zed-editor-preview"
+    "zed-editor-git"
   ]
