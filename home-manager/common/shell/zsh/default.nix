@@ -65,7 +65,28 @@ in {
     };
 
     # shell prompt
-    starship = zshEnabled;
+    starship = zshEnabled' {
+      settings = {
+        format = ''
+          [┌](bold bright-white)$time at $directory
+          [└](bold bright-white)[($nix_shell' )](bold bright-blue)
+        '';
+        nix_shell = {
+          disabled = false;
+          format = "[$name](bold blue)";
+        };
+        time = {
+          disabled = false;
+          time_format = "%H:%M";
+          format = "[$time]($style)";
+        };
+        git_branch = {
+          disabled = false;
+          style = "bold green";
+          format = "on [$branch(:$remote_branch)]($style)";
+        };
+      };
+    };
 
     # useful programs in shell
     ripgrep = enabled;
