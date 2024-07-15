@@ -14,6 +14,11 @@
     # hyprlock.url = "github:hyprwm/hyprlock";
     # xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
+    minimal-tmux-status = {
+      url = "github:niksingh710/minimal-tmux-status";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     anyrun = {

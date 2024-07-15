@@ -7,7 +7,6 @@
   getApp = name: ../common/apps/${name};
   appList = [
     (getApp "alacritty")
-    (getApp "gimp")
     (getApp "nomacs")
     (getApp "mpv")
   ];
@@ -16,6 +15,7 @@ in {
     [
       ../common/xdg
       ../common/shell/zsh
+      ../common/shell/tmux
     ]
     ++ appList;
   home = {
@@ -23,7 +23,7 @@ in {
     homeDirectory = "/home/danknil";
 
     sessionVariables = {
-      TERM = "alacritty";
+      TERM = "xterm-256color";
       TERMINAL = "alacritty";
       NIXOS_OZONE_WL = "1";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS =
@@ -43,6 +43,8 @@ in {
       custom.zed-editor-preview
       # for better coding support
       devenv
+      # git client
+      lazygit
       # java ide
       jetbrains.idea-community-bin
       # wayland support
@@ -52,6 +54,8 @@ in {
       neovide # best neovim gui <3
 
       gpu-screen-recorder # for replays
+
+      wl-clipboard
 
       vivaldi
       vesktop

@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  inherit (lib) enabled' enabled;
+  inherit (lib) enabled' enabled mkForce;
   zshEnabled' = add: enabled' {enableZshIntegration = true;} // add;
   zshEnabled = zshEnabled' {};
 in {
@@ -37,6 +37,7 @@ in {
       syntaxHighlighting = enabled;
       enableVteIntegration = true;
       autocd = true;
+      defaultKeymap = mkForce "emacs";
 
       dotDir = ".config/zsh";
 
