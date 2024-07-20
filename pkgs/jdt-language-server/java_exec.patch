@@ -1,6 +1,6 @@
 diff -ruN nonpatched/bin/jdtls.py patched/bin/jdtls.py
---- nonpatched/bin/jdtls.py	2024-05-30 20:15:43.220000000 +0700
-+++ patched/bin/jdtls.py	2024-06-29 12:58:28.887905142 +0700
+--- nonpatched/bin/jdtls.py	2024-06-27 20:44:44.116000000 +0700
++++ patched/bin/jdtls.py	2024-07-21 02:36:11.543546520 +0700
 @@ -23,13 +23,7 @@
  	if known_args.java_executable is not None:
  		java_executable = known_args.java_executable
@@ -8,10 +8,10 @@ diff -ruN nonpatched/bin/jdtls.py patched/bin/jdtls.py
 -		java_executable = 'java'
 -
 -		if 'JAVA_HOME' in os.environ:
--			ext = '.exe' if platform.system()  == 'Windows' else ''
+-			ext = '.exe' if platform.system() == 'Windows' else ''
 -			java_exec_to_test = Path(os.environ['JAVA_HOME']) / 'bin' / f'java{ext}'
 -			if java_exec_to_test.is_file():
--				java_executable = java_exec_to_test.resolve()
+-				java_executable = str(java_exec_to_test.resolve())
 +		return 'java_executable_to_set'
  
  	if not known_args.validate_java_version:
