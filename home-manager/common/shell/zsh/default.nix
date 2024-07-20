@@ -42,23 +42,6 @@ in {
 
       dotDir = ".config/zsh";
 
-      initExtra = ''
-        mux() {
-          local result="$(tmuxinator list --newline | tail +2 | fzf --exit-0 --tmux)" &&
-          tmuxinator start $result
-        }
-        skill() {
-          local session=$(tmux list-sessions -F "#{session_name}" |\
-            fzf --query="$1" --select-1 --exit-0 --tmux) &&
-            tmux kill-session -t "$session"
-        }
-        ssel() {
-          local session=$(tmux list-sessions -F "#{session_name}" |\
-            fzf --query="$1" --select-1 --exit-0 --tmux) &&
-            tmux switch-client -t "$session"
-        }
-      '';
-
       historySubstringSearch = enabled;
       history = {
         path = "${config.xdg.dataHome}/zsh/zsh_history";

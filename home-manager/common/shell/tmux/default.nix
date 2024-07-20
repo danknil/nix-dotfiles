@@ -1,12 +1,29 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (lib) enabled' enabled;
   bg = config.lib.stylix.colors.withHashtag.base00;
   fg = config.lib.stylix.colors.withHashtag.base05;
 in {
+  home.packages = with pkgs; [
+    (writeScriptBin "mux" ''
+      result="$(tmuxinator list --newline | tail +2 | fzf --exit-0 --tmux)" &&
+      tmuxinator start $result
+    '')
+    (writeScriptBin "tmux-skill" ''
+      session=$(tmux list-sessions -F "#{session_name}" |\
+        fzf --query="$1" --select-1 --exit-0 --tmux) &&
+        tmux kill-session -t "$session"
+    '')
+    (writeScriptBin "tmux-ssel" ''
+      session=$(tmux list-sessions -F "#{session_name}" |\
+        fzf --query="$1" --select-1 --exit-0 --tmux) &&
+        tmux switch-client -t "$session"
+    '')
+  ];
   programs.tmux = enabled' {
     terminal = "tmux-256color";
 
@@ -27,8 +44,8 @@ in {
       bind-key l select-pane -R
 
       bind-key N run-shell mux
-      bind-key S run-shell ssel
-      bind-key K run-shell skill
+      bind-key S run-shell tmux-ssel
+      bind-key K run-shell tmux-skill
 
       set -g main-pane-width "88%"
       set -g main-pane-height "88%"
