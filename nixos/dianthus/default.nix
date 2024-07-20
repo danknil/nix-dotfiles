@@ -73,6 +73,12 @@ in {
     corectrl = enabled' {
       gpuOverclock = enabled;
     };
+    gnupg.agent = enabled' {
+      enableSSHSupport = true;
+      enableBrowserSocket = true;
+      enableExtraSocket = true;
+      pinentryPackage = pkgs.pinentry-qt;
+    };
     gamemode = enabled;
     direnv = enabled;
     zsh = enabled;

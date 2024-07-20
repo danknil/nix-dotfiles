@@ -26,6 +26,10 @@ in {
       bind-key k select-pane -U
       bind-key l select-pane -R
 
+      bind-key N run-shell mux
+      bind-key S run-shell ssel
+      bind-key K run-shell skill
+
       set -g main-pane-width "88%"
       set -g main-pane-height "88%"
 
