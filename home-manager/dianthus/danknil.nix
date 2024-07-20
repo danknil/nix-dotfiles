@@ -16,6 +16,7 @@ in {
       ../common/xdg
       ../common/shell/zsh
       ../common/shell/tmux
+      ../common/shell/pass
     ]
     ++ appList;
   home = {

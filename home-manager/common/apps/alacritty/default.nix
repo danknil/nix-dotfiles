@@ -1,5 +1,10 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) mkForce;
+  tmux = "${pkgs.tmux}/bin/tmux";
 in {
   programs.alacritty = {
     enable = true;
@@ -7,6 +12,14 @@ in {
       live_config_reload = false;
       env = {
         TERM = "xterm-256color";
+      };
+      shell = {
+        program = "${pkgs.zsh}/bin/zsh";
+        args = [
+          "-l"
+          "-c"
+          "${tmux} attach || ${tmux}"
+        ];
       };
       window = {
         padding = {
