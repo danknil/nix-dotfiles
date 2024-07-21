@@ -5,8 +5,8 @@
   ...
 }: let
   inherit (lib) enabled' enabled;
-  bg = config.lib.stylix.colors.withHashtag.base00;
-  fg = config.lib.stylix.colors.withHashtag.base05;
+  bg = config.lib.stylix.colors.withHashtag.base01;
+  fg = config.lib.stylix.colors.withHashtag.base04;
 in {
   home.packages = with pkgs; [
     (writeScriptBin "mux" ''
@@ -54,7 +54,7 @@ in {
       set -g status-style bg=default,fg=default
       set -g status-justify "centre"
       set -g status-left "#[bg=${bg},fg=${fg},bold]#{?client_prefix,, tmux }#[bg=${fg},fg=${bg},bold]#{?client_prefix, tmux ,}#[bg=default,fg=default,bold]"
-      set -g status-right " #S "
+      set -g status-right "#[bg=${bg},fg=${fg}] #S "
       set -g window-status-format "#[bg=${bg},fg=${fg}] #I:#W "
       set -g window-status-current-format "#[bg=${fg},fg=${bg}] #I:#W#{?window_zoomed_flag, 󰊓 , }"
     '';
