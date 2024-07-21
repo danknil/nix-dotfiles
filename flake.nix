@@ -6,6 +6,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nur.url = "github:nix-community/NUR";
     ags.url = "github:Aylur/ags";
+    # theming
+    schemes = {
+      url = "github:tinted-theming/schemes";
+      flake = false;
+    };
     # Hypr software, my beloved <3
     # hyprland.url = "github:hyprwm/Hyprland";
     # hyprpaper.url = "github:hyprwm/hyprpaper";

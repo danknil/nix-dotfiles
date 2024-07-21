@@ -41,10 +41,13 @@ in {
 
   stylix = {
     enable = true;
-    polarity = "light";
     image = pkgs.fetchurl {
-      url = "https://w.wallhaven.cc/full/o5/wallhaven-o5wx6p.png";
-      hash = "sha256-CnAwoDY+MS6n/byrEPXVaNKh9S40FfaaM4q2YdK/G60=";
+      url = "https://i.imgur.com/tqLFc8y.jpeg";
+      hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
+    };
+    base16Scheme = "${inputs.schemes}/base16/tokyo-night-terminal-light.yaml";
+    override = {
+      base00 = "ECEDF3";
     };
   };
 

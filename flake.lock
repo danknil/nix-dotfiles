@@ -548,8 +548,25 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur",
+        "schemes": "schemes",
         "stylix": "stylix",
         "systems": "systems_3"
+      }
+    },
+    "schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1718992165,
+        "narHash": "sha256-9i9IjZcjvinb/214x5YShUDBZBC2189HYs26uGy/Hck=",
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "rev": "ef9a4c3c384624694608adebf0993d7a3bed3cf2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "type": "github"
       }
     },
     "stylix": {
