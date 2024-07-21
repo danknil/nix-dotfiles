@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) enabled enabled' valueForEach;
+  inherit (lib) enabled enabled';
   getApp = name: ../common/apps/${name};
   appList = [
     (getApp "alacritty")
