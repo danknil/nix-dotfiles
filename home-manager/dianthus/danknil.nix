@@ -9,6 +9,7 @@
     (getApp "alacritty")
     (getApp "nomacs")
     (getApp "mpv")
+    (getApp "firefox")
   ];
 in {
   imports =
@@ -41,6 +42,8 @@ in {
       prettierd
       custom.jdt-language-server
       rust-analyzer
+      astyle
+      # zed testing
       custom.zed-editor-preview
       # for better coding support
       devenv
