@@ -4,9 +4,15 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+
+    devenv.url = "github:cachix/devenv";
+
+    # bleeding edge packages
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nur.url = "github:nix-community/NUR";
-    ags.url = "github:Aylur/ags";
+
     # theming
+    stylix.url = "github:danth/stylix";
     schemes = {
       url = "github:tinted-theming/schemes";
       flake = false;
@@ -19,22 +25,14 @@
     # hyprlock.url = "github:hyprwm/hyprlock";
     # xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
-    minimal-tmux-status = {
-      url = "github:niksingh710/minimal-tmux-status";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    ags.url = "github:Aylur/ags";
 
     anyrun = {
       url = "github:anyrun-org/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    stylix.url = "github:danth/stylix";
-
-    # bleeding edge packages
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     # for my laptop <3
     auto-cpufreq = {
@@ -74,6 +72,14 @@
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+
+    # shells for development, available through 'nix shell'
+    # default is used for this flake
+    devShells = forAllSystems (system:
+      import ./shells {
+        inherit lib inputs;
+        pkgs = nixpkgs.legacyPackages.${system};
+      });
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit lib inputs;};
