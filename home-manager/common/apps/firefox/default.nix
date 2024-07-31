@@ -1,7 +1,7 @@
 {lib, ...}: let
-  inherit (lib) enabled enabled';
+  inherit (lib) enabled';
 in {
-  programs.firefox = enabled' {
-    languagePacks = [ "en_US" "ru_RU" ];
-  };
+  programs.firefox =
+    enabled' {
+    };
 }
