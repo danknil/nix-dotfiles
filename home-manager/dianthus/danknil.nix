@@ -10,6 +10,7 @@
     (getApp "nomacs")
     (getApp "mpv")
     (getApp "firefox")
+    (getApp "obs-studio")
   ];
 in {
   imports =
@@ -28,8 +29,7 @@ in {
       TERM = "xterm-256color";
       TERMINAL = "alacritty";
       NIXOS_OZONE_WL = "1";
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS =
-          "\\\${HOME}/.steam/root/compatibilitytools.d";
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\\\${HOME}/.steam/root/compatibilitytools.d";
     };
 
     packages = with pkgs; [
