@@ -27,12 +27,9 @@
   makeFontsConf,
   vulkan-loader,
   nix-update-script,
-
   withGLES ? false,
 }:
-
 # assert withGLES -> stdenv.isLinux;
-
 rustPlatform.buildRustPackage rec {
   pname = "zed";
   version = "0.140.5";
@@ -65,16 +62,18 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  nativeBuildInputs = [
-    mold
-    clang
-    copyDesktopItems
-    curl
-    perl
-    pkg-config
-    protobuf
-    rustPlatform.bindgenHook
-  ] ++ lib.optionals stdenv.isDarwin [ xcbuild.xcrun ];
+  nativeBuildInputs =
+    [
+      mold
+      clang
+      copyDesktopItems
+      curl
+      perl
+      pkg-config
+      protobuf
+      rustPlatform.bindgenHook
+    ]
+    ++ lib.optionals stdenv.isDarwin [xcbuild.xcrun];
 
   buildInputs =
     [
@@ -94,8 +93,7 @@ rustPlatform.buildRustPackage rec {
       xorg.libxcb
     ]
     ++ lib.optionals stdenv.isDarwin (
-      with darwin.apple_sdk.frameworks;
-      [
+      with darwin.apple_sdk.frameworks; [
         AppKit
         CoreAudio
         CoreFoundation
@@ -112,7 +110,7 @@ rustPlatform.buildRustPackage rec {
       ]
     );
 
-  buildFeatures = [ "gpui/runtime_shaders" ];
+  buildFeatures = ["gpui/runtime_shaders"];
 
   env = {
     ZSTD_SYS_USE_PKG_CONFIG = true;
@@ -124,8 +122,14 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  RUSTFLAGS = if withGLES then "--cfg gles" else "";
-  gpu-lib = if withGLES then libglvnd else vulkan-loader;
+  RUSTFLAGS =
+    if withGLES
+    then "--cfg gles"
+    else "";
+  gpu-lib =
+    if withGLES
+    then libglvnd
+    else vulkan-loader;
 
   postFixup = lib.optionalString stdenv.isLinux ''
     patchelf --add-rpath ${gpu-lib}/lib $out/bin/*
