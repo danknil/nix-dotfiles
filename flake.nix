@@ -105,6 +105,11 @@
         specialArgs = {inherit lib inputs outputs;};
         modules = [./nixos/dianthus];
       };
+      # danknil's second notebook
+      lotus = lib.nixosSystem {
+        specialArgs = {inherit lib inputs outputs;};
+	modules = [./nixos/lotus];
+      };
     };
   };
 }
