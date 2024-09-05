@@ -1,26 +1,38 @@
 {
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) enabled enabled';
   getApp = name: ../common/apps/${name};
   appList = [
     (getApp "alacritty")
-#    (getApp "gimp")
+    (getApp "gimp")
     (getApp "nomacs")
     (getApp "mpv")
+    (getApp "firefox")
   ];
 in {
   imports =
     [
       ../common/xdg
       ../common/shell/zsh
+      ../common/shell/tmux
+      ../common/shell/pass
     ]
     ++ appList;
 
-  home.username = "danknil";
-  home.homeDirectory = "/home/danknil";
+  home = {
+    username = "danknil";
+    homeDirectory = "/home/danknil";
+
+    sessionVariables = {
+      TERM = "alacritty";
+      TERMINAL = "alacritty";
+      NIXOS_OZONE_WL = "1";
+    };
+  };
 
   stylix = {
     cursor = {
@@ -32,12 +44,6 @@ in {
 
   services = {
     syncthing = enabled;
-  };
-
-  home.sessionVariables = {
-    TERM = "alacritty";
-    TERMINAL = "alacritty";
-    NIXOS_OZONE_WL = "1";
   };
 
   home.packages = with pkgs; [
@@ -55,11 +61,10 @@ in {
     qt6.qtwayland
     libsForQt5.qt5.qtwayland
 
-#    neovide
-
     gpu-screen-recorder # for replays
 
-    vivaldi
+    inputs.zen-browser.packages.x86_64-linux.specific
+
     vesktop
     telegram-desktop
     wpsoffice
@@ -67,7 +72,7 @@ in {
     # minecraft for life :3
     (pkgs.prismlauncher.override {
       jdks = [jdk8 temurin-bin-11 temurin-bin-17 temurin-bin];
-      withWaylandGLFW = true;
+      # withWaylandGLFW = true;
     })
 
     # fonts

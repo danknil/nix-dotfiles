@@ -3,7 +3,10 @@
   lib,
   ...
 }: {
-  home.packages = [pkgs.custom.gimp-devel];
+  home.packages = [
+    # pkgs.custom.gimp-devel
+    pkgs.gimp
+  ];
 
   # xdg.mimeApps.defaultApplications = lib.valueForEach [
   #   "image/g3fax"

@@ -21,6 +21,8 @@ in {
       # auto-cpufreq
       inputs.auto-cpufreq.nixosModules.default
 
+      inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.default
+
       # import configuration modules
       outputs.nixosModules.default
 
@@ -42,13 +44,15 @@ in {
 
   boot.loader.efi.efiSysMountPoint = "/efi";
 
-  # system theming
   stylix = {
     enable = true;
-    polarity = "light";
     image = pkgs.fetchurl {
       url = "https://i.imgur.com/tqLFc8y.jpeg";
       hash = "sha256-tNv5r5MVpo4Tc0IgwjwPau1pEmTg0WOPT7l1qjWBCqI=";
+    };
+    base16Scheme = "${inputs.schemes}/base16/tokyo-night-terminal-light.yaml";
+    override = {
+      base00 = "ECEDF3";
     };
   };
 
@@ -74,6 +78,21 @@ in {
       danknil = ../../home-manager/lotus/danknil.nix;
     };
   };
+
+  # Start the driver at boot
+  systemd.services.fprintd = {
+    wantedBy = ["multi-user.target"];
+    serviceConfig.Type = "simple";
+  };
+
+  # setup fingerprints
+  services = {
+    open-fprintd = enabled;
+    python-validity = enabled;
+  };
+
+  # setup bios updates
+  services.fwupd = enabled;
 
   # enable bluetooth & wifi
   networking.networkmanager.wifi = {

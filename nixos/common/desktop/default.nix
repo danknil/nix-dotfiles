@@ -38,7 +38,8 @@ in {
   services.udisks2 = enabled;
 
   # disable sound because it doesn't work with pipewire
-  sound = disabled;
+  # dont need anymore
+  # sound = disabled;
 
   # setup sound with pipewire
   security.rtkit = enabled;

@@ -29,6 +29,12 @@
 
     ags.url = "github:Aylur/ags";
 
+    nixos-06cb-009a-fingerprint-sensor = {
+      url = "github:danknil/nixos-06cb-009a-fingerprint-sensor/refactor";
+    };
+
+    zen-browser.url = "github:MarceColl/zen-browser-flake";
+
     anyrun = {
       url = "github:anyrun-org/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -108,7 +114,7 @@
       # danknil's second notebook
       lotus = lib.nixosSystem {
         specialArgs = {inherit lib inputs outputs;};
-	modules = [./nixos/lotus];
+        modules = [./nixos/lotus];
       };
     };
   };

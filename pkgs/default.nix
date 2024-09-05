@@ -21,4 +21,5 @@ in
     "zed-editor"
     "zed-editor-preview"
     "zed-editor-git"
+    "zen-browser"
   ]
