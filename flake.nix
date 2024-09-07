@@ -5,38 +5,62 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    devenv.url = "github:cachix/devenv";
-
     # bleeding edge packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nur.url = "github:nix-community/NUR";
 
+    devenv.url = "github:cachix/devenv";
+
     # theming
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     schemes = {
       url = "github:tinted-theming/schemes";
       flake = false;
     };
-    # Hypr software, my beloved <3
-    # hyprland.url = "github:hyprwm/Hyprland";
-    # hyprpaper.url = "github:hyprwm/hyprpaper";
-    # hypridle.url = "github:hyprwm/hypridle";
-    # hyprpicker.url = "github:hyprwm/hyprpicker";
-    # hyprlock.url = "github:hyprwm/hyprlock";
-    # xdph.url = "github:hyprwm/xdg-desktop-portal-hyprland";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    ags.url = "github:Aylur/ags";
-
-    nixos-06cb-009a-fingerprint-sensor = {
-      url = "github:danknil/nixos-06cb-009a-fingerprint-sensor/refactor";
+    # software flakes, my beloved <3
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
-
+    hyprpaper = {
+      url = "github:hyprwm/hyprpaper";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprpicker = {
+      url = "github:hyprwm/hyprpicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     anyrun = {
       url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zen-browser = {
+      url = "github:MarceColl/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-06cb-009a-fingerprint-sensor.url = "github:danknil/nixos-06cb-009a-fingerprint-sensor/refactor";
+
+    # secure boot
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

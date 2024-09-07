@@ -10,8 +10,22 @@ in {
     git
     wget
   ];
-  # better dbus implementation
-  services.dbus.implementation = "broker";
+
+  services = {
+    # better dbus implementation
+    dbus.implementation = "broker";
+
+    # enable disk manager
+    udisks2 = enabled;
+  };
+
+  # setup sound with pipewire
+  security.rtkit = enabled;
+  services.pipewire = enabled' {
+    alsa = enabled;
+    pulse = enabled;
+    jack = enabled;
+  };
 
   # enabling all firmware because there is no reason i dont want it
   hardware.enableAllFirmware = mkDefault true;
@@ -34,18 +48,7 @@ in {
     firewall.enable = mkDefault true;
   };
 
-  # enable disk manager
-  services.udisks2 = enabled;
-
   # disable sound because it doesn't work with pipewire
   # dont need anymore
   # sound = disabled;
-
-  # setup sound with pipewire
-  security.rtkit = enabled;
-  services.pipewire = enabled' {
-    alsa = enabled;
-    pulse = enabled;
-    jack = enabled;
-  };
 }

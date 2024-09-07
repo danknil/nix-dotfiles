@@ -21,7 +21,10 @@ in {
       # auto-cpufreq
       inputs.auto-cpufreq.nixosModules.default
 
+      # fingerprint driver
       inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules.default
+      # secure boot
+      inputs.lanzaboote.nixosModules.lanzaboote
 
       # import configuration modules
       outputs.nixosModules.default
@@ -42,7 +45,15 @@ in {
   i18n.defaultLocale = "en_DK.UTF-8";
   time.timeZone = "Asia/Novosibirsk";
 
-  boot.loader.efi.efiSysMountPoint = "/efi";
+  boot.loader = {
+    efi.efiSysMountPoint = "/efi";
+    systemd-boot.enable = lib.mkForce false;
+  };
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
 
   stylix = {
     enable = true;
@@ -80,14 +91,13 @@ in {
   };
 
   # Start the driver at boot
-  systemd.services.fprintd = {
-    wantedBy = ["multi-user.target"];
-    serviceConfig.Type = "simple";
-  };
+  # systemd.services.fprintd = {
+  #   wantedBy = ["multi-user.target"];
+  #   serviceConfig.Type = "simple";
+  # };
 
   # setup fingerprints
   services = {
-    open-fprintd = enabled;
     python-validity = enabled;
   };
 
@@ -106,6 +116,7 @@ in {
   environment = {
     systemPackages = with pkgs; [
       tpm2-tss
+      sbctl
       neovim
     ];
 
@@ -134,6 +145,48 @@ in {
   services = {
     upower = enabled;
     thermald = enabled;
+    throttled = enabled' {
+      extraConfig = ''
+        [GENERAL]
+        Enabled: True
+        Sysfs_Power_Path: /sys/class/power_supply/AC*/online
+        Autoreload: False
+
+        [BATTERY]
+        Update_Rate_s: 30
+        PL1_Tdp_W: 20
+        PL1_Duration_s: 28
+        PL2_Tdp_W: 39
+        PL2_Duration_S: 0.002
+        Trip_Temp_C: 85
+        cTDP: 0
+        Disable_BDPROCHOT: False
+
+        [AC]
+        Update_Rate_s: 5
+        PL1_Tdp_W: 44
+        PL1_Duration_s: 28
+        PL2_Tdp_W: 44
+        PL2_Duration_S: 0.002
+        Trip_Temp_C: 95
+        cTDP: 0
+        Disable_BDPROCHOT: False
+
+        [UNDERVOLT.BATTERY]
+        CORE: -100
+        GPU: -80
+        CACHE: -100
+        UNCORE: -80
+        ANALOGIO: 0
+
+        [UNDERVOLT.AC]
+        CORE: -100
+        GPU: -80
+        CACHE: -100
+        UNCORE: -80
+        ANALOGIO: 0
+      '';
+    };
   };
   powerManagement = enabled' {
     powertop = enabled;
@@ -142,6 +195,20 @@ in {
     zsh = enabled;
     direnv = enabled;
     gamemode = enabled;
+    auto-cpufreq = enabled' {
+      settings = {
+        charger = {
+          governor = "schedutil";
+          turbo = "auto";
+        };
+
+        battery = {
+          governor = "schedutil";
+          turbo = "auto";
+          scaling_max_freq = 2200000;
+        };
+      };
+    };
   };
   system.stateVersion = "23.11";
 }
