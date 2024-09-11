@@ -5,11 +5,12 @@
   config,
   ...
 }: let
-  inherit (lib) enabled enabled';
-  hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+  inherit (lib) enabled';
+  inherit (inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}) hyprland xdg-desktop-portal-hyprland;
 in {
+  security.pam.services.hyprlock = {};
   programs.hyprland = enabled' {
-    package = hyprland.hyprland;
-    portalPackage = hyprland.xdg-desktop-portal-hyprland;
+    package = hyprland;
+    portalPackage = xdg-desktop-portal-hyprland;
   };
 }

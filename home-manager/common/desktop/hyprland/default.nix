@@ -6,12 +6,24 @@
   ...
 }: let
   inherit (lib) enabled';
+  inherit (config.lib.stylix) colors;
 in {
-  wayland.windowManager.hyprland = {
-    enable = true;
-    # we should set this on system level
+  imports = [
+    ./lock
+    ./ags
+    ./anyrun
+    ./hyprpaper
+  ];
+
+  wayland.windowManager.hyprland = enabled' {
     package = null;
     settings = {
+      general = with colors; {
+        "col.active_border" = "rgb(${base05}) rgb(${base06}) 22deg";
+        "col.inactive_border" = "rgb(${base00}) rgb(${base03}) 22deg";
+        "col.nogroup_border" = "rgb(${base00}) rgb(${base03}) 22deg";
+        "col.nogroup_border_active" = "rgb(${base00}) rgb(${base03}) 22deg";
+      };
       # TODO: fix coloring
       decoration = {
         rounding = 0;
