@@ -33,7 +33,7 @@ in {
       ../common/nix
       ../common/system/boot
       ../common/desktop
-      ../common/desktop/kde
+      ../common/desktop/hyprland
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix

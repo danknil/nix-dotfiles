@@ -5,7 +5,7 @@ import { Bar } from './src/bar/bar.js';
 // exporting the config so ags can manage the windows
 App.config({
   style: App.configDir + '/style.css',
-  iconTheme: "Numix",
+  iconTheme: 'Numix',
   windows: [
     Bar({ monitor: 0 }),
 

@@ -20,6 +20,7 @@ in {
       ../common/shell/zsh
       ../common/shell/tmux
       ../common/shell/pass
+      ../common/desktop/hyprland
     ]
     ++ appList;
 
@@ -57,14 +58,20 @@ in {
     jdt-language-server
     # for better coding support
     devenv
+    # git client
+    lazygit
+    # java ide
+    jetbrains.idea-community-bin
     # wayland support
     qt6.qtwayland
     libsForQt5.qt5.qtwayland
 
     gpu-screen-recorder # for replays
+    wl-clipboard
 
     inputs.zen-browser.packages.x86_64-linux.specific
 
+    vivaldi
     vesktop
     telegram-desktop
     wpsoffice

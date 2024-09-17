@@ -68,8 +68,16 @@ in {
       trusted-users = ["root" "@wheel"];
       use-cgroups = true;
       warn-dirty = false;
-      substituters = ["https://hyprland.cachix.org" "https://nyx.chaotic.cx/"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="];
+      substituters = [
+        "https://hyprland.cachix.org"
+        "https://nyx.chaotic.cx/"
+        "https://anyrun.cachix.org"
+      ];
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+        "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
+      ];
     };
   };
   nixpkgs = {
